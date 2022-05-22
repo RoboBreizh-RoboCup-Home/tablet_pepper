@@ -98,11 +98,9 @@ class RosBackend(BackendBase):
                                         (rosmsg.width, rosmsg.height),
                                         rosmsg.data)
         # string_buffer = StringIO()
-        string_buffer = BytesIO(rosmsg)
-        string_buffer = string_buffer.read().decode()
-        converted.save(string_buffer, "png")
-        # image_bytes = string_buffer.getvalue()
-        image_bytes = string_buffer.encode()
+        string_buffer = BytesIO()
+        converted.save(string_buffer, format="png")
+        image_bytes = string_buffer.getvalue()
         encoded = base64.standard_b64encode(image_bytes)
         return encoded
 
@@ -113,14 +111,10 @@ class RosBackend(BackendBase):
         flag = cv2.IMREAD_COLOR if cv2.__version__.split('.')[0] == '3' else cv2.IMREAD_COLOR
         encoded_img = cv2.imdecode(img_np_arr, flag)[:, :, ::-1]
         converted = pil_image.fromarray(encoded_img)
-        string_buffer = StringIO()
+        #string_buffer = StringIO()
         string_buffer = BytesIO()
-        string_buffer = string_buffer.read().decode()
-        # string_buffer = str(string_buffer, 'utf-8')
-        # string_buffer = "image"
-        # converted.save(string_buffer, "png")
-        # image_bytes = string_buffer.getvalue()
-        image_bytes = string_buffer.encode()
+        converted.save(string_buffer, format="png")
+        image_bytes = string_buffer.getvalue()
         encoded = base64.standard_b64encode(image_bytes)
         return encoded
 
@@ -138,12 +132,8 @@ class RosBackend(BackendBase):
 
         #string_buffer = StringIO()
         string_buffer = BytesIO()
-        #string_buffer = string_buffer.read().decode()
-        #string_buffer = "image"
         converted.save(string_buffer, format="png")
         image_bytes = string_buffer.getvalue()
-        #image_bytes = string_buffer.encode()
-        #print("image_bytes:", image_bytes)
         encoded = base64.standard_b64encode(image_bytes)
-        #print("encoded:", image_bytes)
         return encoded
+
