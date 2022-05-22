@@ -53,7 +53,7 @@ class RosBackend(BackendBase):
             rosmsg: rosmsg.data), queue_size=100)
 
         # Pass external argument while launching server.py to pass topics as a variable, like python2.7 ./server.py image:= usb_cam/image_raw
-        self.image_sub = rospy.Subscriber("/image_raw", Image,
+        self.image_sub = rospy.Subscriber("/roboBreizh_detector/perception", Image,
                                           call_callbacks_in(self.on_image,
                                                             self.ros_image_to_base64), queue_size=1)
         # self.compressed_image_sub = rospy.Subscriber("/output/image_raw/compressed", CompressedImage, call_callbacks_in(self.on_image, self.ros_image_to_base64), queue_size=1)
