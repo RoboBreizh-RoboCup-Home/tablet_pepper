@@ -83,6 +83,7 @@ class MessageForwarder(WebSocketHandler):
         self.backend.detach_story(self.handle_story)
 
     def handle_operator_text(self, text):
+        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_operator_text({})".format(text))
 
         data = {"label": "operator_text", "text": "Operator : " + text}
@@ -91,6 +92,7 @@ class MessageForwarder(WebSocketHandler):
         self.write_message(data)
 
     def handle_robot_text(self, text):
+        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_robot_text({})".format(text))
 
         data = {"label": "robot_text", "text": "Robot : " + text}
@@ -99,6 +101,7 @@ class MessageForwarder(WebSocketHandler):
         self.write_message(data)
 
     def handle_challenge_step(self, step):
+        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_challenge_step({})".format(step))
 
         data = {"label": "challenge_step", "index": step}
@@ -122,6 +125,7 @@ class MessageForwarder(WebSocketHandler):
     # Minor modifications here
     # the subtitle of the sidebar is set to be the current storyline
     def handle_story(self, storyline):
+        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_story({})".format(storyline))
 
         title, storyline = "title", storyline  # configured
