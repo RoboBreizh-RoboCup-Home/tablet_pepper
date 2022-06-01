@@ -1,9 +1,13 @@
 #! /usr/bin/env python
-
+import qi
+import argparse
+import sys
+import time
+import io
 import json
 import signal
 from socket import error
-
+import numpy as np
 import time
 from tornado.ioloop import IOLoop
 from tornado.web import Application, RequestHandler, StaticFileHandler
@@ -11,12 +15,16 @@ from tornado.websocket import WebSocketHandler
 
 from backendbase import BackendBase
 from rosbackend import RosBackend
-import asyncio
-
-# import threading
 
 CMD_BTN1 = "Next Step"
 CMD_BTN2 = "Stop"
+
+
+class BytesEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return obj.decode('utf-8')
+        return json.JSONEncoder.default(self, obj)
 
 
 class ChallengeHandler(RequestHandler):
@@ -83,7 +91,6 @@ class MessageForwarder(WebSocketHandler):
         self.backend.detach_story(self.handle_story)
 
     def handle_operator_text(self, text):
-        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_operator_text({})".format(text))
 
         data = {"label": "operator_text", "text": "Operator : " + text}
@@ -92,7 +99,6 @@ class MessageForwarder(WebSocketHandler):
         self.write_message(data)
 
     def handle_robot_text(self, text):
-        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_robot_text({})".format(text))
 
         data = {"label": "robot_text", "text": "Robot : " + text}
@@ -101,7 +107,6 @@ class MessageForwarder(WebSocketHandler):
         self.write_message(data)
 
     def handle_challenge_step(self, step):
-        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_challenge_step({})".format(step))
 
         data = {"label": "challenge_step", "index": step}
@@ -110,22 +115,17 @@ class MessageForwarder(WebSocketHandler):
         self.write_message(data)
 
     def handle_image(self, image):
-        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_image({})".format(len(image)))
-        # print("image encoded:", image)
-        image = image.decode()
-        # print("image decoded:", image)
-        data = {"label": "image", "image": image}
-        data = json.dumps(data)
-        # print(data)
 
+        data = {"label": "image", "image": image.decode('utf-8')}
+        data = json.dumps(data, cls=BytesEncoder)
         self.write_message(data)
 
-    # title_storyline
-    # Minor modifications here
-    # the subtitle of the sidebar is set to be the current storyline
+        # title_storyline
+        # Minor modifications here
+        # the subtitle of the sidebar is set to be the current storyline
+
     def handle_story(self, storyline):
-        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_story({})".format(storyline))
 
         title, storyline = "title", storyline  # configured
@@ -144,10 +144,8 @@ if __name__ == "__main__":
     backend = RosBackend.get_instance(shutdown_hook=handle_shutdown)
 
     signal.signal(signal.SIGINT, handle_shutdown)
-    signal.signal(signal.SIGQUIT,
-                  handle_shutdown)  # SIGQUIT is send by our supervisord to stop this server.
-    signal.signal(signal.SIGTERM,
-                  handle_shutdown)  # SIGTERM is send by Ctrl+C or supervisord's default.
+    signal.signal(signal.SIGQUIT, handle_shutdown)  # SIGQUIT is send by our supervisord to stop th>
+    signal.signal(signal.SIGTERM, handle_shutdown)  # SIGTERM is send by Ctrl+C or supervisord's de>
     print("Shutdown handler connected")
 
     app = Application([
@@ -158,12 +156,9 @@ if __name__ == "__main__":
         (r'/(favicon\.ico)', StaticFileHandler, {'path': 'static/favicon.ico'}),
         debug=True,
         template_path="templates")
-    #print("app instantiated")
 
-    # robot IP: 192.168.50.44"
-    address, port = "localhost", 8080
+    address, port = "192.168.50.44", 8888
     print("Application instantiated")
-
 
     connected = False
     while not connected:
@@ -177,7 +172,4 @@ if __name__ == "__main__":
             time.sleep(1)
 
     print("Starting IOLoop")
-    #asyncio.set_event_loop(asyncio.new_event_loop())
     IOLoop.instance().start()
-
-

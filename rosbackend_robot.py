@@ -8,7 +8,12 @@ import cv2
 import numpy as np
 from PIL import Image as pil_image
 import base64
-from io import StringIO, BytesIO
+from io import StringIO
+# from StringIO import StringIO
+try:
+    import BytesIO
+except ImportError:
+    from io import BytesIO
 
 try:
     from vizbox.msg import Story
@@ -18,6 +23,7 @@ except ImportError as e:
 
 class RosBackend(BackendBase):
     __instance = None
+
 
     @staticmethod
     def get_instance(*args, **kwargs):
@@ -33,9 +39,9 @@ class RosBackend(BackendBase):
 
         rospy.on_shutdown(shutdown_hook)
 
-        self.__encoding = {'rgb8': self.rgba2base64,
-                           'bgr8': self.bgr8_2_base64,
-                           'compressed': self.compressed2base64}
+        self.__encoding = {'rgb8':self.rgba2base64,
+                           'bgr8':self.bgr8_2_base64,
+                           'compressed':self.compressed2base64}
 
         self.op_sub = rospy.Subscriber("operator_text", String,
                                        call_callbacks_in(self.on_operator_text,
@@ -53,15 +59,10 @@ class RosBackend(BackendBase):
             rosmsg: rosmsg.data), queue_size=100)
 
         # Pass external argument while launching server.py to pass topics as a variable, like python2.7 ./server.py image:= usb_cam/image_raw
-        '''
-        /roboBreizh_detector/perception
-        /roboBreizh_detector/perception_kmeans
-        /naoqi_driver/camera/front/image_raw
-        '''
-        self.image_sub = rospy.Subscriber("/image_raw", Image,
+        self.image_sub = rospy.Subscriber("/naoqi_driver/camera/front/image_raw", Image,
                                           call_callbacks_in(self.on_image,
                                                             self.ros_image_to_base64), queue_size=1)
-        # self.compressed_image_sub = rospy.Subscriber("/output/image_raw/compressed", CompressedImage, call_callbacks_in(self.on_image, self.ros_image_to_base64), queue_size=1)
+        # self.compressed_image_sub = rospy.Subscriber("image/compressed", CompressedImage, call_callbacks_in(self.on_image, self.ros_image_to_base64), queue_size=1)
 
         # Commented this one out as i have already handled it in separate function
         # try:
@@ -74,37 +75,37 @@ class RosBackend(BackendBase):
 
         self._title = rospy.get_param("story/title", "Robocup@Home 2022")
 
-    # Commented this one out <-- uncomment it and add your storylines here if you want the story line set statically onStart
+        # Commented this one out <-- uncomment it and add your storylines here if you want the sto>
 
-    # self._storyline = rospy.get_param("story/storyline", ["Start","Follow Operator","Clean room","Talk to Operator"])
-    # self.storyline2 = rospy.Publisher("story", String, queue_size=1)
+        # self._storyline = rospy.get_param("story/storyline", ["Start","Follow Operator","Clean r>
+        # self.storyline2 = rospy.Publisher("story", String, queue_size=1)
 
     def accept_command(self, command_text):
         self.cmd_pub.publish(command_text)
 
+
     def btn_pushed(self, command_text):
         self.btn_pub.publish(command_text)
-
+        
     def ros_image_to_base64(self, rosmsg):
         if hasattr(rosmsg, 'encoding'):
             decoder = self.__encoding[rosmsg.encoding]
-            #print(decoder(rosmsg))
         else:
             decoder = self.__encoding['compressed']
         return decoder(rosmsg)
+
 
     @staticmethod
     def rgba2base64(rosmsg):
         length = len(rosmsg.data)
         bytes_needed = int(rosmsg.width * rosmsg.height * 3)
-        # print "encode: length={} width={}, heigth={}, bytes_needed={}".format(length, width, height, bytes_needed)
+        # print "encode: length={} width={}, heigth={}, bytes_needed={}".format(length, width, hei>
 
         converted = pil_image.frombytes('RGB',
                                         (rosmsg.width, rosmsg.height),
                                         rosmsg.data)
-        # string_buffer = StringIO()
         string_buffer = BytesIO()
-        converted.save(string_buffer, format="png")
+        converted.save(string_buffer, "png")
         image_bytes = string_buffer.getvalue()
         encoded = base64.standard_b64encode(image_bytes)
         return encoded
@@ -113,12 +114,11 @@ class RosBackend(BackendBase):
     def compressed2base64(rosmsg):
         length = len(rosmsg.data)
         img_np_arr = np.fromstring(rosmsg.data, np.uint8)
-        flag = cv2.IMREAD_COLOR if cv2.__version__.split('.')[0] == '3' else cv2.IMREAD_COLOR
-        encoded_img = cv2.imdecode(img_np_arr, flag)[:, :, ::-1]
+        flag = cv2.IMREAD_COLOR if cv2.__version__.split('.')[0] == '3' else cv2.CV_LOAD_IMAGE_COLOR
+        encoded_img = cv2.imdecode(img_np_arr, flag)[:,:,::-1]
         converted = pil_image.fromarray(encoded_img)
-        #string_buffer = StringIO()
-        string_buffer = BytesIO()
-        converted.save(string_buffer, format="png")
+        string_buffer = StringIO()
+        converted.save(string_buffer, "png")
         image_bytes = string_buffer.getvalue()
         encoded = base64.standard_b64encode(image_bytes)
         return encoded
@@ -128,17 +128,17 @@ class RosBackend(BackendBase):
         # Decode image into RGB rigt because PIL doesn't know BGR.
         # Below we simply reorder the channels
         converted_rgb = pil_image.frombytes('RGB',
-                                            (rosmsg.width, rosmsg.height),
-                                            rosmsg.data)
+                                        (rosmsg.width, rosmsg.height),
+                                        rosmsg.data)
 
         # Re-order channels to match RGB what we encoded :-).
-        b, g, r = converted_rgb.split()
-        converted = pil_image.merge("RGB", (b, g, r))
+        b,g,r = converted_rgb.split()
+        converted = pil_image.merge("RGB", (b,g,r))
 
-        #string_buffer = StringIO()
-        string_buffer = BytesIO()
-        converted.save(string_buffer, format="png")
+        string_buffer = StringIO()
+        converted.save(string_buffer, "png")
         image_bytes = string_buffer.getvalue()
         encoded = base64.standard_b64encode(image_bytes)
         return encoded
 
+    
