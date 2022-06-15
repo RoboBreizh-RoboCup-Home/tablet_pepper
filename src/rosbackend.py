@@ -27,9 +27,6 @@ class RosBackend(BackendBase):
             RosBackend.__instance = RosBackend(*args, **kwargs)
         return RosBackend.__instance
 
-    # def callback(self, data):
-    #     self._title = rospy.get_param("story/title", data.data)
-    #     print(data.data)
 
     def __init__(self, shutdown_hook):
 
@@ -57,8 +54,7 @@ class RosBackend(BackendBase):
                                          call_callbacks_in(self.on_challenge_step,
                                                            lambda rosmsg: rosmsg.data),
                                          queue_size=100)
-        # self.story_sub = rospy.Subscriber("story", Story, call_callbacks_in(self.on_story, lambda
-        #     rosmsg: rosmsg), queue_size=100)
+
         self.story_sub = rospy.Subscriber("story", Story, call_callbacks_in(self.on_story, lambda rosmsg: (
             rosmsg.title, rosmsg.storyline)), queue_size=1)
 

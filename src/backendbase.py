@@ -31,10 +31,6 @@ class BackendBase(object):
     def storyline(self):
         return self._storyline
 
-    # def attach_title(self, callback):
-    #     self._title = callback
-    #     #return self._title
-
     def attach_operator_text(self, callback):
         self.on_operator_text += [callback]
 
@@ -46,12 +42,6 @@ class BackendBase(object):
 
     def attach_story(self, callback):
         self.on_story += [callback]
-
-    # def attach_title(self, callback):
-    #     self.on_title += [callback]
-
-    # def detach_title(self, callback):
-    #     self.on_title.remove(callback)
 
     def detach_operator_text(self, callback):
         self.on_operator_text.remove(callback)

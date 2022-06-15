@@ -124,14 +124,6 @@ class MessageForwarder(WebSocketHandler):
 
         self.write_message(data)
 
-    # def handle_title(self, title):
-    #     asyncio.set_event_loop(asyncio.new_event_loop())
-    #     print("handle_title({})".format(title))
-    #
-    #     data = {"label": "title", "text": title}
-    #     data = json.dumps(data)
-    #
-    #     self.write_message(data)
 
     # title_storyline
     # Minor modifications here
