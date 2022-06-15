@@ -1,29 +1,10 @@
-import asyncio
 def call_callbacks_in(cb_list, converter):
     def callback(message):
-        asyncio.set_event_loop(asyncio.new_event_loop())
         converted = converter(message)
         for cb in cb_list:
             cb(converted)
 
     return callback
-def get_event_loop(self):
-    """Get the event loop for the current context.
-
-    Returns an instance of EventLoop or raises an exception.
-    """
-    if (self._local._loop is None and
-            not self._local._set_called and
-            isinstance(threading.current_thread(), threading._MainThread)):
-        self.set_event_loop(self.new_event_loop())
-
-    if self._local._loop is None:
-        raise RuntimeError('There is no current event loop in thread %r.'
-                            % threading.current_thread().name)
-
-    return self._local._loop
-
-
 
 
 class BackendBase(object):
@@ -37,9 +18,10 @@ class BackendBase(object):
         self.on_challenge_step = []
         self.on_image = []
         self.on_story = []
+        self.on_title = []
 
-        self._title = "Robocup@Home 2022" #Challange <-- orignally
-        self._storyline = ["Start"] # A place to add more comma delimited stories
+        self._title = "Robocup@Home 2022"  # Challange <-- orignally
+        self._storyline = []  # A place to add more comma delimited stories
 
     @property
     def title(self):
@@ -48,6 +30,10 @@ class BackendBase(object):
     @property
     def storyline(self):
         return self._storyline
+
+    # def attach_title(self, callback):
+    #     self._title = callback
+    #     #return self._title
 
     def attach_operator_text(self, callback):
         self.on_operator_text += [callback]
@@ -61,9 +47,11 @@ class BackendBase(object):
     def attach_story(self, callback):
         self.on_story += [callback]
 
+    # def attach_title(self, callback):
+    #     self.on_title += [callback]
 
-
-
+    # def detach_title(self, callback):
+    #     self.on_title.remove(callback)
 
     def detach_operator_text(self, callback):
         self.on_operator_text.remove(callback)
@@ -77,18 +65,16 @@ class BackendBase(object):
     def detach_story(self, callback):
         self.on_story.remove(callback)
 
-
-
     def accept_command(self, command_text):
         raise NotImplementedError()
-        
+
     def attach_image(self, callback):
         """
         Add a callback for when an Image is received
         :param callback: function accepting a base64-encoded image
         :return:
         """
-	self.on_image += [callback]
+        self.on_image += [callback]
 
     def detach_image(self, callback):
         """
@@ -96,24 +82,20 @@ class BackendBase(object):
         :param callback:
         :return:
         """
-	self.on_image.remove(callback)
+        self.on_image.remove(callback)
 
-
-     #def attach_story(self, callback):
+        # def attach_story(self, callback):
         """
         Add a callback for when a Story is received
         :param callback: function accepting a tuple of (title: str, storyline: [str])
         :return:
         """
-        #self.on_story += [callback]
-  
+        # self.on_story += [callback]
 
-    #def detach_story(self, callback):
+        # def detach_story(self, callback):
         """
         Remove a callback from when a Story is received
         :param callback:
         :return:
         """
-        #self.on_story.remove(callback)
-
-
+        # self.on_story.remove(callback)

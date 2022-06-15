@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import json
 import signal
@@ -62,6 +62,7 @@ class MessageForwarder(WebSocketHandler):
 
     def open(self):
         print("opening WebSocket")
+        # self.backend.attach_title(self.handle_title)
 
         self.backend.attach_operator_text(self.handle_operator_text)
         self.backend.attach_robot_text(self.handle_robot_text)
@@ -109,9 +110,11 @@ class MessageForwarder(WebSocketHandler):
 
         self.write_message(data)
 
+    # fixme
     def handle_image(self, image):
+        # print('handling images')
         asyncio.set_event_loop(asyncio.new_event_loop())
-        print("handle_image({})".format(len(image)))
+        # print("handle_image({})".format(len(image)))
         # print("image encoded:", image)
         image = image.decode()
         # print("image decoded:", image)
@@ -121,16 +124,27 @@ class MessageForwarder(WebSocketHandler):
 
         self.write_message(data)
 
+    # def handle_title(self, title):
+    #     asyncio.set_event_loop(asyncio.new_event_loop())
+    #     print("handle_title({})".format(title))
+    #
+    #     data = {"label": "title", "text": title}
+    #     data = json.dumps(data)
+    #
+    #     self.write_message(data)
+
     # title_storyline
     # Minor modifications here
     # the subtitle of the sidebar is set to be the current storyline
     def handle_story(self, storyline):
         asyncio.set_event_loop(asyncio.new_event_loop())
-        print("handle_story({})".format(storyline))
+        # print("handle_story({})".format(storyline))
 
-        title, storyline = "title", storyline  # configured
+        title, storyline = storyline[0], storyline[1]  # configured
 
-        data = {"label": "story", "title": storyline, "storyline": storyline}
+        print(title, storyline)
+
+        data = {"label": "story", "title": title, "storyline": storyline}
         data = json.dumps(data)
 
         self.write_message(data)
@@ -144,10 +158,8 @@ if __name__ == "__main__":
     backend = RosBackend.get_instance(shutdown_hook=handle_shutdown)
 
     signal.signal(signal.SIGINT, handle_shutdown)
-    signal.signal(signal.SIGQUIT,
-                  handle_shutdown)  # SIGQUIT is send by our supervisord to stop this server.
-    signal.signal(signal.SIGTERM,
-                  handle_shutdown)  # SIGTERM is send by Ctrl+C or supervisord's default.
+    signal.signal(signal.SIGQUIT, handle_shutdown)  # SIGQUIT is send by our supervisord to stop this server.
+    signal.signal(signal.SIGTERM, handle_shutdown)  # SIGTERM is send by Ctrl+C or supervisord's default.
     print("Shutdown handler connected")
 
     app = Application([
@@ -158,12 +170,11 @@ if __name__ == "__main__":
         (r'/(favicon\.ico)', StaticFileHandler, {'path': 'static/favicon.ico'}),
         debug=True,
         template_path="templates")
-    #print("app instantiated")
+    # print("app instantiated")
 
     # robot IP: 192.168.50.44"
-    address, port = "localhost", 8080
+    address, port = "localhost", 8888
     print("Application instantiated")
-
 
     connected = False
     while not connected:
@@ -177,7 +188,5 @@ if __name__ == "__main__":
             time.sleep(1)
 
     print("Starting IOLoop")
-    #asyncio.set_event_loop(asyncio.new_event_loop())
+    # asyncio.set_event_loop(asyncio.new_event_loop())
     IOLoop.instance().start()
-
-
