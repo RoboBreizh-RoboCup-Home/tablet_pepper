@@ -13,23 +13,27 @@ def main(session):
     try:
         tabletService = session.service("ALTabletService")
 
+        tabletService.wakeUp()
+
         # Ensure that the tablet wifi is enable
+
         tabletService.enableWifi()
+        print(tabletService.robotIp())
 
         # Display a web page on the tablet
-        tabletService.showWebview("http://www.google.com")
+        # tabletService.showWebview("http://www.google.com")
 
-        time.sleep(3)
+        # time.sleep(20)
 
         # Display a local web page located in boot-config/html folder
         # The ip of the robot from the tablet is 198.18.0.1
-        # while True:
-        #   a = input()
-        # tabletService.showWebview("http://192.168.50.44:8888")
-        tabletService.showWebview("https://webflow.com/interactions-animations")
-        #  if a=='1': exit(0)
 
-        time.sleep(10)
+        url = "http://192.168.50.44:8888"
+        print("url ", url)
+        tabletService.showWebview(url)
+        tabletService.reloadPage(1)
+        # tabletService.showWebview("https://webflow.com/interactions-animations")
+        # tabletService.loadUrl("http://192.168.50.44:8888")
 
         # Hide the web view
         tabletService.hideWebview()
