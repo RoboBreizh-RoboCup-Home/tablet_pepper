@@ -5,17 +5,19 @@ from std_msgs.msg import String, UInt32
 from sensor_msgs.msg import Image, CompressedImage
 
 import cv2
+from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
 from PIL import Image as pil_image
 import base64
 from io import StringIO, BytesIO
-from vizbox.msg import Story
+
+# from vizbox.msg import Story
 
 
-# try:
-#     from vizbox.msg import Story
-# except ImportError as e:
-#     rospy.logerr(e)
+try:
+    from vizbox.msg import Story
+except ImportError as e:
+    rospy.logerr(e)
 
 
 class RosBackend(BackendBase):
@@ -26,7 +28,6 @@ class RosBackend(BackendBase):
         if not RosBackend.__instance:
             RosBackend.__instance = RosBackend(*args, **kwargs)
         return RosBackend.__instance
-
 
     def __init__(self, shutdown_hook):
 
@@ -55,8 +56,8 @@ class RosBackend(BackendBase):
                                                            lambda rosmsg: rosmsg.data),
                                          queue_size=100)
 
-        self.story_sub = rospy.Subscriber("story", Story, call_callbacks_in(self.on_story, lambda rosmsg: (
-            rosmsg.title, rosmsg.storyline)), queue_size=1)
+        # self.story_sub = rospy.Subscriber("story", Story, call_callbacks_in(self.on_story, lambda rosmsg: (
+        #     rosmsg.title, rosmsg.storyline)), queue_size=1)
 
         # Pass external argument while launching server.py to pass topics as a variable, like python2.7 ./server.py image:= usb_cam/image_raw
         '''
@@ -65,7 +66,7 @@ class RosBackend(BackendBase):
         /roboBreizh_detector/perception_kmeans
         /naoqi_driver/camera/front/image_raw
         '''
-        self.image_sub = rospy.Subscriber("/image_raw", Image,
+        self.image_sub = rospy.Subscriber("/naoqi_driver/camera/front/image_raw", Image,
                                           call_callbacks_in(self.on_image,
                                                             self.ros_image_to_base64), queue_size=1)
         # self.compressed_image_sub = rospy.Subscriber("/output/image_raw/compressed", CompressedImage, call_callbacks_in(self.on_image, self.ros_image_to_base64), queue_size=1)
@@ -104,7 +105,20 @@ class RosBackend(BackendBase):
 
     @staticmethod
     def rgba2base64(rosmsg):
-        # print('rgba2base64')   # on robot
+        #print(type(rosmsg))  # on robot
+
+        try:
+            img = CvBridge().imgmsg_to_cv2(rosmsg, "bgr8")
+        except CvBridgeError as e:
+            print(e)
+
+            # Convert the image to a Numpy array since most cv2 functions
+            # require Numpy arrays.
+        frame = np.array(img, dtype=np.uint8)
+        #print(frame.shape)
+        resized = cv2.resize(frame, (frame.shape[1] * 2, frame.shape[0] * 2), interpolation=cv2.INTER_AREA)
+        rosmsg = CvBridge().cv2_to_imgmsg(resized, "bgr8")
+
         length = len(rosmsg.data)
         bytes_needed = int(rosmsg.width * rosmsg.height * 3)
         # print "encode: length={} width={}, heigth={}, bytes_needed={}".format(length, width, height, bytes_needed)

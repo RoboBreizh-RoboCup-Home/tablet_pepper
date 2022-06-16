@@ -143,6 +143,7 @@ class MessageForwarder(WebSocketHandler):
 
 
 def handle_shutdown(*arg, **kwargs):
+    asyncio.set_event_loop(asyncio.new_event_loop())
     IOLoop.instance().stop()
 
 
