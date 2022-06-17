@@ -21,9 +21,9 @@ def main(session):
         print(tabletService.robotIp())
 
         # Display a web page on the tablet
-        # tabletService.showWebview("http://www.google.com")
+        tabletService.showWebview("http://www.google.com")
 
-        # time.sleep(20)
+        time.sleep(300)
 
         # Display a local web page located in boot-config/html folder
         # The ip of the robot from the tablet is 198.18.0.1
