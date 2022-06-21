@@ -167,7 +167,7 @@ if __name__ == "__main__":
 
     # robot IP: 192.168.50.44"
     address, port = "localhost", 8888
-    address = "192.168.50.44"
+    #address = "127.0.0.1"
     print("Application instantiated")
 
     connected = False
