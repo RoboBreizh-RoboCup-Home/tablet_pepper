@@ -32,6 +32,11 @@ class PublishTopic():
 
     def image_callback2(self, ros_image):
         self.image_pub.publish(ros_image)
+        try:
+            img = self.bridge.imgmsg_to_cv2(ros_image, "bgr8")
+        except CvBridgeError as e:
+            print(e)
+        cv2.imwrite('/home/nao/.local/share/PackageManager/apps/roboBreizh/html/img_raw.png', img)
         print('publishing images')
 
     def cleanup(self):

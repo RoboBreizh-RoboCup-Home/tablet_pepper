@@ -1,4 +1,4 @@
-var ws = new WebSocket("ws://localhost:8888/ws");
+var ws = new WebSocket("ws://192.168.50.44:8888/ws");
 
 ws.onmessage = function (evt) {
     var json = JSON.parse(evt.data);
@@ -35,7 +35,7 @@ ws.onmessage = function (evt) {
 
 	    var stories = document.getElementById("storyline");
             var txt = document.createElement("li");
-            txt.appendChild(document.createTextNode(json.title)); 
+            txt.appendChild(document.createTextNode(json.title));
             txt.setAttribute("class", json.label + " story-line");
             console.log(json.label) // added line
             stories.insertAdjacentElement('afterbegin', txt);
@@ -46,7 +46,7 @@ ws.onmessage = function (evt) {
                 $("#storyline").append('<li>' + this + '</li>');
             });
             */
-	  
+
 
             break;
     }
