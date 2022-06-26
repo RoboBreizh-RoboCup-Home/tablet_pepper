@@ -10,7 +10,7 @@ from vizbox.msg import Story
 
 class PublishTopic():
     def __init__(self):
-        rospy.init_node('face_detection_buche', anonymous=True)
+        rospy.init_node('publish_topic', anonymous=True)
 
         # What we do during shutdown
         rospy.on_shutdown(self.cleanup)
@@ -32,6 +32,11 @@ class PublishTopic():
 
     def image_callback2(self, ros_image):
         self.image_pub.publish(ros_image)
+        try:
+            img = self.bridge.imgmsg_to_cv2(ros_image, "rgb8")
+        except CvBridgeError as e:
+            print(e)
+        cv2.imwrite('/home/nao/.local/share/PackageManager/apps/roboBreizh/html/img_raw.png', img)
         print('publishing images')
 
     def cleanup(self):

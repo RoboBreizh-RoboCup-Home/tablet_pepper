@@ -10,7 +10,7 @@ from vizbox.msg import Story
 
 class PublishTopic():
     def __init__(self):
-        rospy.init_node('face_detection_buche', anonymous=True)
+        rospy.init_node('publish_topic', anonymous=True)
 
         # What we do during shutdown
         rospy.on_shutdown(self.cleanup)
