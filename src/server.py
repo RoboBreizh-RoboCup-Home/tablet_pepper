@@ -62,7 +62,6 @@ class MessageForwarder(WebSocketHandler):
 
     def open(self):
         print("opening WebSocket")
-        # self.backend.attach_title(self.handle_title)
 
         self.backend.attach_operator_text(self.handle_operator_text)
         self.backend.attach_robot_text(self.handle_robot_text)
@@ -142,9 +141,12 @@ class MessageForwarder(WebSocketHandler):
     #     self.write_message(data)
 
     def handle_story(self, title_storyline):
+        asyncio.set_event_loop(asyncio.new_event_loop())
         print("handle_story({})".format(title_storyline))
 
         title, storyline = title_storyline
+        print("title:", title)
+        print("storyline:", storyline)
 
         data = {"label": "story", "title": title, "storyline": storyline}
         data = json.dumps(data)

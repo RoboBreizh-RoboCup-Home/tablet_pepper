@@ -80,9 +80,8 @@ class RosBackend(BackendBase):
         self.btn_pub = rospy.Publisher("next_step", String, queue_size=1)
 
         # Commented this one out <-- uncomment it and add your storylines here if you want the story line set statically onStart
-        self._title = rospy.get_param("story/title", "Title")
-        self._storyline = rospy.get_param("story/storyline", ["step1", "step2", "step3"])
-        #self._storyline = rospy.get_param("story/title", "title")
+        # self._title = rospy.get_param("story/title", "Title")
+        # self._storyline = rospy.get_param("story/storyline", ["step1", "step2", "step3"])
 
     # self.storyline2 = rospy.Publisher("story", String, queue_size=1)
 
