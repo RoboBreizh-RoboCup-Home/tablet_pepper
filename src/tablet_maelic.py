@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# root dir = ~/.local/share/PackageManager/apps/roboBreizh
+# cp -rf ~/.local/share/PackageManager/apps/roboBreizh ~/robobreizh_pepper_ws/src/vizbox/src/tablet_backup/
 import qi
 import argparse
 import sys
