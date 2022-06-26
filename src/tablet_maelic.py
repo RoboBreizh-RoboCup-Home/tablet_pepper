@@ -199,10 +199,10 @@ if __name__ == '__main__':
     tablet.createHTML(text="hello CROSSING ...",
                       logo=True,
                       fileName="test.html")
-    base_path = get_pkg_path('vizbox')
-    actual_path = os.path.join(base_path, 'src')
-    print(actual_path)
-    tablet.share_localhost(actual_path)
+    # base_path = get_pkg_path('vizbox')
+    # actual_path = os.path.join(base_path, 'src')
+    # print(actual_path)
+    tablet.share_localhost(base_path)
 
     while(True):
         # TODO subscribe to message from camera + speech
@@ -212,8 +212,8 @@ if __name__ == '__main__':
         tablet.display_html("test.html")
 
         tablet.tablet_show_local_image("test.html")
-    tablet.display_resetWebview()
-    tablet.display_resetImage()
-    tablet.display_image("CROSSING-logo-new.png")
-    time.sleep(3)
-    tablet.display_resetImage()
+        tablet.display_resetWebview()
+        tablet.display_resetImage()
+        tablet.display_image("screenshot.png")
+        time.sleep(3)
+        tablet.display_resetImage()

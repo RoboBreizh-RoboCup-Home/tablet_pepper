@@ -128,13 +128,23 @@ class MessageForwarder(WebSocketHandler):
     # title_storyline
     # Minor modifications here
     # the subtitle of the sidebar is set to be the current storyline
-    def handle_story(self, storyline):
-        asyncio.set_event_loop(asyncio.new_event_loop())
-        # print("handle_story({})".format(storyline))
+    # def handle_story(self, storyline):
+    #     asyncio.set_event_loop(asyncio.new_event_loop())
+    #     print("handle_story({})".format(storyline))
 
-        title, storyline = storyline[0], storyline[1]  # configured
+    #     title, storyline = storyline[0], storyline[1]  # configured
 
-        print(title, storyline)
+    #     print(title, storyline)
+
+    #     data = {"label": "story", "title": title, "storyline": storyline}
+    #     data = json.dumps(data)
+
+    #     self.write_message(data)
+
+    def handle_story(self, title_storyline):
+        print("handle_story({})".format(title_storyline))
+
+        title, storyline = title_storyline
 
         data = {"label": "story", "title": title, "storyline": storyline}
         data = json.dumps(data)

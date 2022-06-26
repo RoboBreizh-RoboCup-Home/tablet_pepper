@@ -48,16 +48,14 @@ class RosBackend(BackendBase):
         self.robot_sub = rospy.Subscriber("robot_text", String,
                                           call_callbacks_in(self.on_robot_text, lambda rosmsg: rosmsg.data),
                                           queue_size=100)
-        # fixme
-        # self.title_sub = rospy.Subscriber("/title", self.callback, queue_size=100)
 
         self.step_sub = rospy.Subscriber("challenge_step", UInt32,
                                          call_callbacks_in(self.on_challenge_step,
                                                            lambda rosmsg: rosmsg.data),
                                          queue_size=100)
 
-        # self.story_sub = rospy.Subscriber("story", Story, call_callbacks_in(self.on_story, lambda rosmsg: (
-        #     rosmsg.title, rosmsg.storyline)), queue_size=1)
+        self.story_sub = rospy.Subscriber("story", Story, call_callbacks_in(self.on_story, lambda rosmsg: (
+            rosmsg.title, rosmsg.storyline)), queue_size=100)
 
         # Pass external argument while launching server.py to pass topics as a variable, like python2.7 ./server.py image:= usb_cam/image_raw
         '''
@@ -81,11 +79,10 @@ class RosBackend(BackendBase):
         self.cmd_pub = rospy.Publisher("command", String, queue_size=1)
         self.btn_pub = rospy.Publisher("next_step", String, queue_size=1)
 
-        self._title = rospy.get_param("story/title", "Title")
-
         # Commented this one out <-- uncomment it and add your storylines here if you want the story line set statically onStart
-
+        self._title = rospy.get_param("story/title", "Title")
         self._storyline = rospy.get_param("story/storyline", ["step1", "step2", "step3"])
+        #self._storyline = rospy.get_param("story/title", "title")
 
     # self.storyline2 = rospy.Publisher("story", String, queue_size=1)
 
@@ -108,7 +105,7 @@ class RosBackend(BackendBase):
         #print(type(rosmsg))  # on robot
 
         try:
-            img = CvBridge().imgmsg_to_cv2(rosmsg, "bgr8")
+            img = CvBridge().imgmsg_to_cv2(rosmsg, "rgb8")
         except CvBridgeError as e:
             print(e)
 
@@ -117,7 +114,7 @@ class RosBackend(BackendBase):
         frame = np.array(img, dtype=np.uint8)
         #print(frame.shape)
         resized = cv2.resize(frame, (frame.shape[1] * 2, frame.shape[0] * 2), interpolation=cv2.INTER_AREA)
-        rosmsg = CvBridge().cv2_to_imgmsg(resized, "bgr8")
+        rosmsg = CvBridge().cv2_to_imgmsg(resized, "rgb8")
 
         length = len(rosmsg.data)
         bytes_needed = int(rosmsg.width * rosmsg.height * 3)
