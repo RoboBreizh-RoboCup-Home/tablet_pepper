@@ -6,7 +6,13 @@ import time
 import subprocess
 import rospkg
 import os
-
+import rospy
+from std_msgs.msg import String, UInt32
+from sensor_msgs.msg import Image
+import cv2
+from cv_bridge import CvBridge, CvBridgeError
+import numpy as np
+from vizbox.msg import Story
 # Tablet class contains all variables & functions to allow Pepper to communicate with his Tablet
 
 
@@ -66,15 +72,14 @@ class Tablet:
         self.alTablet.hideImage()
 
     def display_html(self, fileName="challenge.html"):
+        print("displaying html")
         try:
             self.alTablet.showWebview(self.ip_access+"/"+fileName)
         except Exception as e:
             print("Error was: ", e)
 
     def createHTML(self, fileName, subtitle='', story=''):
-        f = open("html/storyline.txt")
-        storyline_value = f.read()
-        f.close()
+        print("creating html")
         base_html = """
 <!doctype html>
 <html>
@@ -83,24 +88,19 @@ class Tablet:
         <script src="static/scripts/jquery-3.3.1.min.js"></script>
         <link rel="stylesheet" href="static/stylesheets/bootstrap.min.css">
         <script src="static/scripts/bootstrap.min.js"></script>
-
         <link rel="shortcut icon" href="static/favicon.ico">
-
     </head>
     <body class="main">
-
         <div class="header">
             <h1 id="title">Help me Carry</h1>
             <hr style="border-color: white;">
         </div>
-
         <div class="content center">
             Robot Camera Image
             <br>
             <img    id="visualization_img"
                     src="img_raw.png">
         </div>
-
         <div class="sidebar">
            <!--{#<h2>Robocup@Home Events</h2>#}-->
             <ol id="storyline">
@@ -112,70 +112,128 @@ class Tablet:
                 <li>Guide to car</li>
                   <!--{% for line in storyline %}
                     {% block line %}
-                      {storyline_value}
+                      <li>{{line}}</li>
                     {% end %}
                     {% end %}-->
             </ol>
         </div>
-
         <div class="footer-button center">
                         <div  class="btn-group-vertical" style="width:75%;">
                             <button type="button" id="btn1" class="btn btn-primary ">Next Step</button>
                             <button type="button" id="btn2" class="btn btn-danger ">Stop</button>
                         </div>
                 </div>
-
                 <div class="footer-text">
                         <ul id="subtitles">
                         <!-- Dummies to test style -->
                     <li class="robot_text subtitle-line">Robot : Ok, I will follow you</li>
                     <li class="operator_text subtitle-line">Operator : Follow me</li>
                     <li class="robot_text subtitle-line">Robot : Hello operator</li>
-
                 </ul>
                 </div>
         <script src="static/scripts/script.js"></script>
     </body>
 </html>
-""".format(storyline_value=storyline_value)
+"""
         f = open(self.ip_access_write+"/"+fileName, "w+")
         f.write(base_html)
         f.close()
+
+
+class PublishTopic():
+    def __init__(self):
+        rospy.init_node('publish_topic', anonymous=True)
+
+        # What we do during shutdown
+        rospy.on_shutdown(self.cleanup)
+
+        # Create the cv_bridge object
+        self.bridge = CvBridge()
+        self.story = None
+        self.title = None
+        self.storyline = None
+
+        self.robot_text_pub = rospy.Publisher('/robot_text', String, queue_size=10)
+        self.operator_text_pub = rospy.Publisher('/operator_text', String, queue_size=10)
+        self.image_pub = rospy.Publisher('/image_raw', Image, queue_size=100)
+        self.story_sub = rospy.Subscriber('/story', Story, self.story_callback)
+        self.challenge_step_pub = rospy.Publisher('/challenge_step', UInt32, queue_size=10)
+
+        # Subscribe to the camera image and depth topics and set the appropriate callbacks
+        self.image_sub = rospy.Subscriber("/naoqi_driver/camera/front/image_raw", Image, self.image_callback2)
+
+        print("Waiting for image topics...")
+       # self.tablet = Tablet(session, pkgName="roboBreizh")
+       # self.tablet.share_localhost("/home/nao/.local/share/PackageManager/apps/roboBreizh")
+       # self.tablet.createHTML(fileName="challenge_test.html")
+       # self.tablet.display_html("challenge_test.html")
+       # time.sleep(0.5)
+
+        rospy.spin()
+
+    def story_callback(self, ros_msg):
+        self.story = ros_msg
+        print(self.story)
+        self.title, self.storyline = self.story.title, self.story.storyline
+        print("title", self.title)
+        print("storyline", self.storyline)
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/storyline.txt", "w")
+        storyline_str = ""
+        for line in self.storyline:
+            storyline_str += "<li>"+line+"</li>"
+        text_file.write(storyline_str)
+        text_file.close()
+
+    def image_callback2(self, ros_image):
+        self.image_pub.publish(ros_image)
+        try:
+            img = self.bridge.imgmsg_to_cv2(ros_image, "bgr8")
+        except CvBridgeError as e:
+            print(e)
+        cv2.imwrite('/home/nao/.local/share/PackageManager/apps/roboBreizh/html/img_raw.png', img)
+        #print('publishing images')
+
+    def cleanup(self):
+        
+        print("Shutting down node.")
+
 
 def get_pkg_path(package):
     rp = rospkg.RosPack()
     return(rp.get_path(package))
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", type=str, default="127.0.0.1",
-                        help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
-    parser.add_argument("--port", type=int, default=9559,
-                        help="Naoqi port number")
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("--ip", type=str, default="127.0.0.1",
+    #                    help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
+    #parser.add_argument("--port", type=int, default=9559,
+    #                    help="Naoqi port number")
 
-    args = parser.parse_args()
-    session = qi.Session()
-    try:
-        session.connect("tcp://" + args.ip + ":" + str(args.port))
-    except RuntimeError:
-        print(("Can't connect to Naoqi at ip \"" + args.ip + "\" on port " + str(args.port) + ".\n"
-               "Please check your script arguments. Run with -h option for help."))
-        sys.exit(1)
+    #args = parser.parse_args()
+    #session = qi.Session()
+    #try:
+    #    session.connect("tcp://" + args.ip + ":" + str(args.port))
+    #except RuntimeError:
+    #    print(("Can't connect to Naoqi at ip \"" + args.ip + "\" on port " + str(args.port) + ".\n"
+    #           "Please check your script arguments. Run with -h option for help."))
+    #    sys.exit(1)
 
     # Test
-    tablet = Tablet(session, pkgName="roboBreizh")
+   ## tablet = Tablet(session, pkgName="roboBreizh")
    # tablet.createHTML(fileName="challenge_test.html")
    # base_path = get_pkg_path('vizbox')
    # actual_path = os.path.join(base_path, 'src')
    # print(actual_path)
-    tablet.share_localhost("/home/nao/.local/share/PackageManager/apps/roboBreizh")
+   ## tablet.share_localhost("/home/nao/.local/share/PackageManager/apps/roboBreizh")
 
-    while(True):
+    PublishTopic()
+
+   # while(True):
         # TODO subscribe to message from camera + speech
         #tablet.createHTML(text="hello CROSSING ...", logo=True, fileName="test.html")
-        tablet.createHTML(fileName="challenge_test.html")
-        tablet.display_html("challenge_test.html")
-        time.sleep(0.5)
+        ##tablet.createHTML(fileName="challenge_test.html")
+        ##tablet.display_html("challenge_test.html")
+        ##time.sleep(0.5)
 
        # tablet.tablet_show_local_image("test.html")
        # tablet.display_resetWebview()
