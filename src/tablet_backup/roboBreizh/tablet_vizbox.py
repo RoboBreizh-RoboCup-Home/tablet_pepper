@@ -248,6 +248,12 @@ def get_pkg_path(package):
     return(rp.get_path(package))
 
 if __name__ == '__main__':
+    dir_name = "/home/nao/.local/share/PackageManager/apps/roboBreizh/html"
+    test = os.listdir(dir_name)
+
+    for item in test:
+        if item.endswith(".txt"):
+            os.remove(os.path.join(dir_name, item))
     #parser = argparse.ArgumentParser()
     #parser.add_argument("--ip", type=str, default="127.0.0.1",
     #                    help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
