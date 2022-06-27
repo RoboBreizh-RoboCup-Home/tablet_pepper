@@ -140,6 +140,13 @@ class Tablet:
 
 class PublishTopic():
     def __init__(self):
+        dir_name = "/home/nao/.local/share/PackageManager/apps/roboBreizh"
+        test = os.listdir(dir_name)
+
+        for item in test:
+            if item.endswith(".txt"):
+                os.remove(os.path.join(dir_name, item))
+
         rospy.init_node('publish_topic', anonymous=True)
 
         # What we do during shutdown
