@@ -75,6 +75,23 @@ class Tablet:
         f = open("html/storyline.txt")
         storyline_value = f.read()
         f.close()
+        f = open("html/story_title.txt")
+        title_value = f.read()
+        f.close()
+        f = open("html/robot_operator_text.txt")
+        robot_operator_text_value = f.read()
+        f.close()
+        f = open("html/challenge_step.txt")
+        challenge_step_value = int(f.read())
+        f.close()
+        storyline_split = storyline_value.split("</li>")
+        if(len(storyline_split)>=challenge_step_value):
+            storyline_split[challenge_step_value].replace("<li>", "<li><b>")
+            storyline_split[challenge_step_value]+="</b>"
+        else: print("error: challenge step not exist")
+        storyline_value = ""
+        for line in storyline_split:
+            storyline_value += line + "</li>"
         base_html = """
 <!doctype html>
 <html>
@@ -90,7 +107,7 @@ class Tablet:
     <body class="main">
 
         <div class="header">
-            <h1 id="title">Help me Carry</h1>
+            <h1 id="title">{title_value}</h1>
             <hr style="border-color: white;">
         </div>
 
@@ -102,20 +119,8 @@ class Tablet:
         </div>
 
         <div class="sidebar">
-           <!--{#<h2>Robocup@Home Events</h2>#}-->
-            <ol id="storyline">
-                <li>Get operator</li>
-                <li><b>Follow to car</b></li>
-                <li>Take bag</li>
-                <li>Hear destination</li>
-                <li>Find human</li>
-                <li>Guide to car</li>
-                  <!--{% for line in storyline %}
-                    {% block line %}
-                      {storyline_value}
-                    {% end %}
-                    {% end %}-->
-            </ol>
+           <!--{{#<h2>Robocup@Home Events</h2>#}}-->
+            <ol id="storyline">{storyline_value}</ol>
         </div>
 
         <div class="footer-button center">
@@ -128,16 +133,13 @@ class Tablet:
                 <div class="footer-text">
                         <ul id="subtitles">
                         <!-- Dummies to test style -->
-                    <li class="robot_text subtitle-line">Robot : Ok, I will follow you</li>
-                    <li class="operator_text subtitle-line">Operator : Follow me</li>
-                    <li class="robot_text subtitle-line">Robot : Hello operator</li>
-
+                    {robot_operator_text_value}
                 </ul>
                 </div>
         <script src="static/scripts/script.js"></script>
     </body>
 </html>
-""".format(storyline_value=storyline_value)
+""".format(title_value=title_value, storyline_value=storyline_value, robot_operator_text_value=robot_operator_text_value)
         f = open(self.ip_access_write+"/"+fileName, "w+")
         f.write(base_html)
         f.close()
@@ -173,8 +175,8 @@ if __name__ == '__main__':
     while(True):
         # TODO subscribe to message from camera + speech
         #tablet.createHTML(text="hello CROSSING ...", logo=True, fileName="test.html")
-        tablet.createHTML(fileName="challenge_test.html")
-        tablet.display_html("challenge_test.html")
+        tablet.createHTML(fileName="challenge.html")
+        tablet.display_html("challenge.html")
         time.sleep(0.5)
 
        # tablet.tablet_show_local_image("test.html")

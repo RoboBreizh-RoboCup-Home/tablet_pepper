@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
     <head>
@@ -5,19 +6,19 @@
         <script src="static/scripts/jquery-3.3.1.min.js"></script>
         <link rel="stylesheet" href="static/stylesheets/bootstrap.min.css">
         <script src="static/scripts/bootstrap.min.js"></script>
-        
-        <link rel="shortcut icon" href="static/favicon.ico">    
+
+        <link rel="shortcut icon" href="static/favicon.ico">
 
     </head>
     <body class="main">
-        
+
         <div class="header">
-            <h1 id="title">Help me carry</h1>
+            <h1 id="title">task_title</h1>
             <hr style="border-color: white;">
         </div>
 
         <div class="content center">
-            {{visualization}}
+            Robot Camera Image
             <br>
             <img    id="visualization_img"
                     src="img_raw.png">
@@ -25,33 +26,23 @@
 
         <div class="sidebar">
            <!--{#<h2>Robocup@Home Events</h2>#}-->
-            <ol id="storyline">
-                <li>subtask 1</li>
-                <li>subtask 2</li>
-                <li>subtask 3</li>
-                  <!--{% for line in storyline %}
-                    {% block line %}
-                      <li>{{line}}</li>
-                    {% end %}
-                    {% end %}-->
-            </ol>
+            <ol id="storyline"><li>task1</li><li>task2</b></li><li>task3</li></li></ol>
         </div>
 
         <div class="footer-button center">
-    			<div  class="btn-group-vertical" style="width:75%;">
-    			    <button type="button" id="btn1" class="btn btn-primary ">Next Step</button>
-    			    <button type="button" id="btn2" class="btn btn-danger ">Stop</button>
-      			</div>
-    		</div>
+                        <div  class="btn-group-vertical" style="width:75%;">
+                            <button type="button" id="btn1" class="btn btn-primary ">Next Step</button>
+                            <button type="button" id="btn2" class="btn btn-danger ">Stop</button>
+                        </div>
+                </div>
 
-    		<div class="footer-text">
-    			<ul id="subtitles">
+                <div class="footer-text">
+                        <ul id="subtitles">
                         <!-- Dummies to test style -->
-                    <li class="robot_text subtitle-line">Robot : Ok, I will follow you</li>
-                    <li class="operator_text subtitle-line">Operator : Follow me</li>
-                   
+                    <li class="robot_text subtitle-line">data: "OK, I will follow you"</li><li class="operator_text subtitle-line">data: "Robot, follow me"</li><li class="robot_text subtitle-line">data: "Hello operator"</li>
+
                 </ul>
-    		</div>
+                </div>
         <script src="static/scripts/script.js"></script>
     </body>
 </html>

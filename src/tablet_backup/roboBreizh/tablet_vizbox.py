@@ -152,12 +152,19 @@ class PublishTopic():
         self.story = None
         self.title = None
         self.storyline = None
+        self.robot_text = None
+        self.operator_text = None
+        self.challenge_step = None
 
         self.robot_text_pub = rospy.Publisher('/robot_text', String, queue_size=10)
+        self.robot_text_sub = rospy.Subscriber('/robot_text', String, self.robot_text_callback)
         self.operator_text_pub = rospy.Publisher('/operator_text', String, queue_size=10)
-        self.image_pub = rospy.Publisher('/image_raw', Image, queue_size=100)
+        self.operator_text_sub = rospy.Subscriber('/operator_text', String, self.operator_text_callback)
+        #self.image_pub = rospy.Publisher('/image_raw', Image, queue_size=100)
+        self.story_pub = rospy.Publisher('/story', Story, queue_size=10)
         self.story_sub = rospy.Subscriber('/story', Story, self.story_callback)
         self.challenge_step_pub = rospy.Publisher('/challenge_step', UInt32, queue_size=10)
+        self.challenge_step_sub = rospy.Subscriber('/challenge_step', UInt32, self.challenge_step_callback)
 
         # Subscribe to the camera image and depth topics and set the appropriate callbacks
         self.image_sub = rospy.Subscriber("/naoqi_driver/camera/front/image_raw", Image, self.image_callback2)
@@ -171,11 +178,45 @@ class PublishTopic():
 
         rospy.spin()
 
+    def robot_text_callback(self, ros_msg):
+        self.robot_text = ros_msg
+        print("robot:", self.robot_text)
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt")
+        robot_operator_text = text_file.read()
+        text_file.close()
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt", "w+")
+        robot_operator_text = """<li class="robot_text subtitle-line">{value}</li>""".format(value=self.robot_text) + robot_operator_text
+        text_file.write(robot_operator_text)
+        text_file.close()
+
+    def operator_text_callback(self, ros_msg):
+        self.operator_text = ros_msg
+        print("operator:", self.operator_text)
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt")
+        robot_operator_text = text_file.read()
+        text_file.close()
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt", "w+")
+        robot_operator_text = """<li class="operator_text subtitle-line">{value}</li>""".format(value=self.operator_text) + robot_operator_text
+        text_file.write(robot_operator_text)
+        text_file.close()
+
+    def challenge_step_callback(self, ros_msg):
+        self.challenge_step = str(ros_msg.data)
+        print("challenge_step:", self.challenge_step)
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/challenge_step.txt", "w+")
+        text_file.write(self.challenge_step)
+        text_file.close()
+
+
     def story_callback(self, ros_msg):
         self.story = ros_msg
         print(self.story)
         self.title, self.storyline = self.story.title, self.story.storyline
         print("title", self.title)
+        text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/story_title.txt", "w")
+        text_file.write(self.title)
+        text_file.close()
+
         print("storyline", self.storyline)
         text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/storyline.txt", "w")
         storyline_str = ""
@@ -185,16 +226,16 @@ class PublishTopic():
         text_file.close()
 
     def image_callback2(self, ros_image):
-        self.image_pub.publish(ros_image)
+       # self.image_pub.publish(ros_image)
         try:
-            img = self.bridge.imgmsg_to_cv2(ros_image, "bgr8")
+            img = self.bridge.imgmsg_to_cv2(ros_image, "rgb8")
         except CvBridgeError as e:
             print(e)
         cv2.imwrite('/home/nao/.local/share/PackageManager/apps/roboBreizh/html/img_raw.png', img)
         #print('publishing images')
 
     def cleanup(self):
-        
+
         print("Shutting down node.")
 
 
