@@ -179,8 +179,10 @@ class PublishTopic():
         rospy.spin()
 
     def robot_text_callback(self, ros_msg):
-        self.robot_text = ros_msg
+        self.robot_text = ros_msg.data
         print("robot:", self.robot_text)
+        if not os.path.exists("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt"):
+            open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt", "x")
         text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt")
         robot_operator_text = text_file.read()
         text_file.close()
@@ -190,8 +192,10 @@ class PublishTopic():
         text_file.close()
 
     def operator_text_callback(self, ros_msg):
-        self.operator_text = ros_msg
+        self.operator_text = ros_msg.data
         print("operator:", self.operator_text)
+        if not os.path.exists("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt"):
+            open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt", "x")
         text_file = open("/home/nao/.local/share/PackageManager/apps/roboBreizh/html/robot_operator_text.txt")
         robot_operator_text = text_file.read()
         text_file.close()
@@ -232,7 +236,7 @@ class PublishTopic():
         except CvBridgeError as e:
             print(e)
         cv2.imwrite('/home/nao/.local/share/PackageManager/apps/roboBreizh/html/img_raw.png', img)
-        #print('publishing images')
+       # print('saving images')
 
     def cleanup(self):
 

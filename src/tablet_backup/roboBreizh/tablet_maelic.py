@@ -72,21 +72,29 @@ class Tablet:
             print("Error was: ", e)
 
     def createHTML(self, fileName, subtitle='', story=''):
-        f = open("html/storyline.txt")
-        storyline_value = f.read()
-        f.close()
-        f = open("html/story_title.txt")
-        title_value = f.read()
-        f.close()
-        f = open("html/robot_operator_text.txt")
-        robot_operator_text_value = f.read()
-        f.close()
-        f = open("html/challenge_step.txt")
-        challenge_step_value = int(f.read())
-        f.close()
+        storyline_value = ""
+        title_value = ""
+        robot_operator_text_value = ""
+        challenge_step_value = 0
+        if(os.path.exists("html/storyline.txt")):
+            f = open("html/storyline.txt")
+            storyline_value = f.read()
+            f.close()
+        if(os.path.exists("html/story_title.txt")):
+            f = open("html/story_title.txt")
+            title_value = f.read()
+            f.close()
+        if(os.path.exists("html/robot_operator_text.txt")):
+            f = open("html/robot_operator_text.txt")
+            robot_operator_text_value = f.read()
+            f.close()
+        if(os.path.exists("html/challenge_step.txt")):
+            f = open("html/challenge_step.txt")
+            challenge_step_value = int(f.read())
+            f.close()
         storyline_split = storyline_value.split("</li>")
         if(len(storyline_split)>=challenge_step_value):
-            storyline_split[challenge_step_value].replace("<li>", "<li><b>")
+            storyline_split[challenge_step_value] = storyline_split[challenge_step_value].replace("<li>", "<li><b>")
             storyline_split[challenge_step_value]+="</b>"
         else: print("error: challenge step not exist")
         storyline_value = ""
