@@ -56,7 +56,7 @@ class MessageForwarder(WebSocketHandler):
     def __init__(self, *args, **kwargs):
         self.backend = kwargs.pop('backend')
         self.iter_step = 0
-        self.first_person = True
+        self.isHold = False
         super(MessageForwarder, self).__init__(*args, **kwargs)
 
     def check_origin(self, origin):
@@ -104,9 +104,17 @@ class MessageForwarder(WebSocketHandler):
 
     def handle_challenge_step(self, step):
         asyncio.set_event_loop(asyncio.new_event_loop())
-        self.iter_step += 1
-        if self.iter_step == 12 and self.first_person:
-            self.iter_step = 1
+        print(step)
+
+        # increment 
+        if step == 1 and not self.isHold:
+            self.iter_step += 1
+        # reset 
+        elif step == 3:
+            self.iter_step = 0
+        else:
+            print("the step given is not assigned")
+
         print("handle_challenge_step({})".format(self.iter_step))
 
         data = {"label": "challenge_step", "index": self.iter_step}
