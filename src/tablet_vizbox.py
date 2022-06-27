@@ -140,7 +140,7 @@ class Tablet:
 
 class PublishTopic():
     def __init__(self):
-        dir_name = "/home/nao/.local/share/PackageManager/apps/roboBreizh"
+        dir_name = "/home/nao/.local/share/PackageManager/apps/roboBreizh/html"
         test = os.listdir(dir_name)
 
         for item in test:
