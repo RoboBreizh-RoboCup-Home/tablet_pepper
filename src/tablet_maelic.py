@@ -9,6 +9,8 @@ import subprocess
 import rospkg
 import os
 
+from vizbox.src.tablet_vizbox import PublishTopic
+
 # Tablet class contains all variables & functions to allow Pepper to communicate with his Tablet
 
 
@@ -206,16 +208,18 @@ if __name__ == '__main__':
     # print(actual_path)
     tablet.share_localhost(base_path)
 
-    while(True):
-        # TODO subscribe to message from camera + speech
-        tablet.createHTML(text="hello CROSSING ...",
-                          logo=True,
-                          fileName="test.html")
-        tablet.display_html("test.html")
+    PublishTopic()
 
-        tablet.tablet_show_local_image("test.html")
-        tablet.display_resetWebview()
-        tablet.display_resetImage()
-        tablet.display_image("screenshot.png")
-        time.sleep(3)
-        tablet.display_resetImage()
+    # while(True):
+    #     # TODO subscribe to message from camera + speech
+    #     tablet.createHTML(text="hello CROSSING ...",
+    #                       logo=True,
+    #                       fileName="test.html")
+    #     tablet.display_html("test.html")
+
+    #     tablet.tablet_show_local_image("test.html")
+    #     tablet.display_resetWebview()
+    #     tablet.display_resetImage()
+    #     tablet.display_image("screenshot.png")
+    #     time.sleep(3)
+    #     tablet.display_resetImage()

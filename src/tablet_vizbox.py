@@ -210,6 +210,8 @@ if __name__ == '__main__':
    # print(actual_path)
     tablet.share_localhost("/home/nao/.local/share/PackageManager/apps/roboBreizh")
 
+    PublishTopic()
+
     while(True):
         # TODO subscribe to message from camera + speech
         #tablet.createHTML(text="hello CROSSING ...", logo=True, fileName="test.html")
