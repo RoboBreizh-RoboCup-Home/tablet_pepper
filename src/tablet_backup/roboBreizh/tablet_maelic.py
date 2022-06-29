@@ -13,6 +13,7 @@ import os
 class Tablet:
 
     def __init__(self, session, pkgName="roboBreizh"):
+        self.challenge_step_value = 0
         self.session = session
         self.alTablet = self.session.service("ALTabletService")
         self.pkgName = pkgName
@@ -75,7 +76,7 @@ class Tablet:
         storyline_value = ""
         title_value = ""
         robot_operator_text_value = ""
-        challenge_step_value = 0
+
         if(os.path.exists("html/storyline.txt")):
             f = open("html/storyline.txt")
             storyline_value = f.read()
@@ -90,12 +91,22 @@ class Tablet:
             f.close()
         if(os.path.exists("html/challenge_step.txt")):
             f = open("html/challenge_step.txt")
-            challenge_step_value = int(f.read())
+            value = f.read()
             f.close()
+            if(value=='3'):
+                self.challenge_step_value=0
+                print("challenge_step_value reset to 0", self.challenge_step_value)
+            elif(value=='1'):
+                self.challenge_step_value+=1
+                print("challenge_step_value incremented by 1", self.challenge_step_value)
+                os.remove("html/challenge_step.txt")
+            else:
+                print("invalid instruction for challenge step", self.challenge_step_value)
         storyline_split = storyline_value.split("</li>")
-        if(len(storyline_split)>=challenge_step_value):
-            storyline_split[challenge_step_value] = storyline_split[challenge_step_value].replace("<li>", "<li><b>")
-            storyline_split[challenge_step_value]+="</b>"
+        #print(len(storyline_split))
+        if(os.path.exists("html/storyline.txt") and len(storyline_split)-1 > self.challenge_step_value):
+            storyline_split[self.challenge_step_value] = storyline_split[self.challenge_step_value].replace("<li>", "<li><b>")
+            storyline_split[self.challenge_step_value]+="</b>"
         else: print("error: challenge step not exist")
         storyline_value = ""
         for line in storyline_split:
