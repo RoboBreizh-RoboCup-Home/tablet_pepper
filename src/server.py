@@ -109,6 +109,9 @@ class MessageForwarder(WebSocketHandler):
         # increment 
         if step == 1 and not self.isHold:
             self.iter_step += 1
+        # decrement
+        elif step == 2:
+            self.iter_step -=1
         # reset 
         elif step == 3:
             self.iter_step = 0
