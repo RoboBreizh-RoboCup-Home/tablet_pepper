@@ -46,6 +46,7 @@ qtcreator-*
 
 node_modules/
 dist/
+package-lock.json
 
 # Emacs
 .#*
