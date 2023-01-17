@@ -44,6 +44,9 @@ qtcreator-*
 
 *~
 
+node_modules/
+dist/
+
 # Emacs
 .#*
 
