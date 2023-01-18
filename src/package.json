@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "file-loader": "^6.2.0",
-    "roslib": "^1.3.0",
-    "ws": "^8.12.0"
   },
   "devDependencies": {
     "@types/roslib": "^1.3.0",
