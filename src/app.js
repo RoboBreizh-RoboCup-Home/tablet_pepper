@@ -1,11 +1,9 @@
 var ros = new ROSLIB.Ros({
-    url: 'ws://198.18.0.1:9090'
+    url: 'ws://10.203.3.61:9090'
 });
 var content = document.getElementById("contentDiv");
 var Demo = function ( /*send : any*/) {
     content.innerHTML = "\n    <h1>\n        Choose a demo\n    </h1>\n    <section class=\"button-container\">\n        <button id=\"chatgpt\" class=\"option-btn\">(Chat GPT)</button>\n        <button id=\"poseDetection\" class=\"option-btn\">Pose detection</button>\n        <button id=\"ageDetection\" class=\"option-btn\">Age detection</button>\n    </div>\n    ";
-    // let btns : NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn") as NodeListOf<HTMLButtonElement>;
-    // btns.forEach((btn) => {
     var chatGptBtn = document.getElementById("chatgpt");
     chatGptBtn.addEventListener('click', function () {
         var gptAction = new ROSLIB.ActionClient({
@@ -54,7 +52,7 @@ var changePage = function (page) {
     }
 };
 var ChatGpt = function () {
-    content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n\n    <h1>\n        Chat GPT\n    </h1>\n    <div class=\"button-container\">\n        <div id=\"request\">\n            <div class=\"request\"> User : dummy </div>\n        </div>\n        <div id=\"answer\">\n            <div class=\"answer\"> User : dummy </div>\n        </div>\n    </div>\n    ";
+    content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n\n    <h1>\n        Chat GPT\n    </h1>\n    <div class=\"button-container\">\n    <div class=\"lds-roller\"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>\n        <div id=\"request\">\n            <div class=\"request\"> User : dummy </div>\n        </div>\n        <div id=\"answer\">\n            <div class=\"answer\"> User : dummy </div>\n        </div>\n    </div>\n    ";
     var request = new ROSLIB.Topic({
         ros: ros,
         name: '/roboBreizh_chat_demo/user_utterance',
@@ -75,7 +73,8 @@ var ChatGpt = function () {
     });
     var homeIcon = document.getElementById("home-icon");
     homeIcon.addEventListener('click', function () {
-        // request.unsubscribe();
+        answer.unsubscribe();
+        request.unsubscribe();
         changePage('home');
     });
 };
@@ -104,15 +103,6 @@ var AgeDetection = function () {
         changePage('home');
     });
 };
-// Pages
-// server: Server;
-// this.server = new Server(address);
-// this.server.listener(this);
-// const ws = new Server(address, this);
-// Load at startup
-// Demo(this.server.send);
-// this.loadingSite.update("Loading internal webpage...")
-// this.server.listener(this);
 window.onload = function () {
     // const ws = new Server('ws://198.18.0.1:9090');
     Demo();

@@ -1,7 +1,7 @@
 let ros = new ROSLIB.Ros({
-    url : 'ws://198.18.0.1:9090',
-    // transportLibrary: 'websocket'
-    // url: '198.18.0.1:9090'
+    url : 'ws://10.203.3.61:9090',
+    // url : 'ws://192.168.50.44:9090',
+    // url: 'ws://198.18.0.1:9090'
 });
 
 let content: HTMLDivElement = (document.getElementById("contentDiv")! as HTMLDivElement);
@@ -18,8 +18,6 @@ const Demo= (/*send : any*/): void => {
     </div>
     `;
 
-    // let btns : NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn") as NodeListOf<HTMLButtonElement>;
-    // btns.forEach((btn) => {
     let chatGptBtn = document.getElementById("chatgpt")! as HTMLButtonElement;
     chatGptBtn.addEventListener('click', () => {
         let gptAction = new ROSLIB.ActionClient({
@@ -85,6 +83,7 @@ const ChatGpt= (): void => {
         Chat GPT
     </h1>
     <div class="button-container">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         <div id="request">
             <div class="request"> User : dummy </div>
         </div>
@@ -116,7 +115,8 @@ const ChatGpt= (): void => {
 
     let homeIcon = document.getElementById("home-icon")!;
     homeIcon.addEventListener('click', () => {
-        // request.unsubscribe();
+        answer.unsubscribe();
+        request.unsubscribe();
         changePage('home');        
     });
 };
@@ -166,20 +166,6 @@ const AgeDetection  = (): void => {
         changePage('home');        
     });
 }
-// Pages
-// server: Server;
-
-    // this.server = new Server(address);
-    // this.server.listener(this);
-    // const ws = new Server(address, this);
-
-    // Load at startup
-    // Demo(this.server.send);
-    // this.loadingSite.update("Loading internal webpage...")
-    // this.server.listener(this);
-
-
-
 
 window.onload = function() {
     // const ws = new Server('ws://198.18.0.1:9090');
