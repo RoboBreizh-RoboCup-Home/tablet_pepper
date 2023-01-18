@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>tablet_pepper</name>
+  <name>vizbox</name>
   <version>0.1.0</version>
   <description>Visualisation server for RoboCup@Home</description>
 
