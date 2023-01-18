@@ -1,10 +1,14 @@
 html, body 
 {
   /*overflow: hidden; /* Hide scrollbars */
-  font-family:  sans-serif;
+  font-family: 'Aldrich', sans-serif;
   margin: 0;
   height: 100%;
   width: 100%;
+}
+
+h1 {
+  font:  2em  'Aldrich', sans-serif;
 }
 
 #contentDiv 
@@ -20,6 +24,37 @@ html, body
   background-color:#18bc9c; 
 }
 
+.answer {
+  font-family: 'Aldrich', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  background-color: grey;
+  border-radius: 12px;
+  border-style: none;
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 80%;
+  height: 10%;
+  -khtml-user-select: none; /* Konqueror HTML */
+  user-select: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.request {
+  font-family: 'Aldrich', sans-serif;
+  font-size: 2em;
+  font-weight: 500;
+  background-color: white;
+  border-radius: 12px;
+  border-style: none;
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 50%;
+  height: 10%;
+  -khtml-user-select: none; /* Konqueror HTML */
+  user-select: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 /*Button that displays buttons with 3 columns and goes back to the bottom line if there is more that 3 element on 1 line*/
 .button-container {
@@ -163,7 +198,7 @@ Speech mode
   left: -47%;
 }
 .speech-text {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Aldrich', sans-serif;
 }
 
 
@@ -193,7 +228,7 @@ Question mode
   align-items: center;
 }
 .option-btn {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Aldrich', sans-serif;
   font-weight: 500;
   background-color: white;
   border-radius: 12px;
@@ -245,7 +280,7 @@ Loading mode
 Input mode
 */
 input {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Aldrich', sans-serif;
   font-weight: 500;
   background-color: white;
   border-radius: 12px;

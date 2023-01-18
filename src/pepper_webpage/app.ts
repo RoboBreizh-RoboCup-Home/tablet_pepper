@@ -1,66 +1,8 @@
-import * as ROSLIB from 'roslib';
-
-
 let ros = new ROSLIB.Ros({
-    url : 'ws://192.168.50.44:9090'
+    url : 'ws://198.18.0.1:9090',
+    // transportLibrary: 'websocket'
     // url: '198.18.0.1:9090'
 });
- 
-// Pepper screen size: width: 1280 height: 800
-// But image scaling fucks everything up
-
-// this acts as a router and a websocket client
-// class Server {
-//     /*
-//     * Websocket
-//     */
-//     public websocket!: WebSocket;
-//     public websocket_url!: string;
-
-//     constructor(websocket_url: string) {
-//         this.websocket_url = websocket_url;
-//         this.websocket = new WebSocket(websocket_url);
-//     }    
-
-//     public send = (message: string, controller : Controller) => {
-//         this.websocket.send(JSON.stringify(message));
-//         let btnId = JSON.parse(message);
-//         switch (btnId.id) {
-//             case 'chatgpt': {
-//                 ChatGpt(this.send);
-//                 break;
-//             }
-//             case 'poseDetection': {
-//                 PoseDetection(this.send);
-//                 break;
-//             }
-//             case 'ageDetection': {
-//                 AgeDetection(this.send);
-//                 break;
-//             }
-//         }
-            
-//     }
-
-//     /* Externals */
-//     listener(controller: Controller) {
-//         this.websocket.addEventListener('message', event => {
-//             console.log(event.data);
-//             let message = JSON.parse(event.data);
-//             console.log(message);
-            
-//             if ('type' in message) {
-//                 switch(message.type) {
-//                     case 'demo': {
-//                         if ('textContent' in message) 
-//                             Demo(this.send);
-//                         break;
-//                     }
-//                 }
-//             }
-//         });
-//     }
-// }
 
 let content: HTMLDivElement = (document.getElementById("contentDiv")! as HTMLDivElement);
 
@@ -76,18 +18,41 @@ const Demo= (/*send : any*/): void => {
     </div>
     `;
 
-    let btns : NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn") as NodeListOf<HTMLButtonElement>;
-    btns.forEach((btn) => {
-        btn.addEventListener('click', () => {
+    // let btns : NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn") as NodeListOf<HTMLButtonElement>;
+    // btns.forEach((btn) => {
+    let chatGptBtn = document.getElementById("chatgpt")! as HTMLButtonElement;
+    chatGptBtn.addEventListener('click', () => {
+        let gptAction = new ROSLIB.ActionClient({
+            ros : ros,
+            serverName : '/chat_demo_node',
+            actionName : 'perception_pepper/ChatDemoAction'
+        });
 
-            changePage(btn.id);
-            // let message = {
-            //     "id": btn.id,
-            // };
+        let goal = new ROSLIB.Goal({
+            actionClient : gptAction,
+            goalMessage : {
+                max_duration:{
+                    secs: 1000,
+                    nsecs: 0
+                }
+            }
+        });
 
-            // send(JSON.stringify(message));
-        })
+        goal.send();
+
+        changePage(chatGptBtn.id);
     });
+
+    let poseDetectionBtn = document.getElementById("poseDetection")! as HTMLButtonElement;
+    poseDetectionBtn.addEventListener('click', () => {
+        changePage(poseDetectionBtn.id);
+    });
+
+    let ageDetectionBtn = document.getElementById("ageDetection")! as HTMLButtonElement;
+    ageDetectionBtn.addEventListener('click', () => {
+        changePage(ageDetectionBtn.id);
+    });
+
 }
 
 const changePage = (page: string) => {
@@ -120,8 +85,12 @@ const ChatGpt= (): void => {
         Chat GPT
     </h1>
     <div class="button-container">
-        <div id="request"> </div>
-        <div id="answer"></div>
+        <div id="request">
+            <div class="request"> User : dummy </div>
+        </div>
+        <div id="answer">
+            <div class="answer"> User : dummy </div>
+        </div>
     </div>
     `;
     let request = new ROSLIB.Topic({
@@ -131,7 +100,7 @@ const ChatGpt= (): void => {
     });
     request.subscribe((message: any) => {
         let img : HTMLDivElement = document.getElementById("request") as HTMLDivElement;
-        img.innerHTML = '<p>' + message.data + '</p>';
+        img.innerHTML = '<div class="request"> User : ' + message.data + '</div>';
     });
 
     let answer = new ROSLIB.Topic({
@@ -142,12 +111,12 @@ const ChatGpt= (): void => {
 
     answer.subscribe((message: any) => {
         let img : HTMLDivElement = document.getElementById("answer") as HTMLDivElement;
-        img.innerHTML = '<p>' + message.data + '</p>';
+        img.innerHTML = '<div class="answer"> Pepper : ' + message.data + '</div>';
     });
 
     let homeIcon = document.getElementById("home-icon")!;
     homeIcon.addEventListener('click', () => {
-        request.unsubscribe();
+        // request.unsubscribe();
         changePage('home');        
     });
 };
@@ -209,17 +178,21 @@ const AgeDetection  = (): void => {
     // this.loadingSite.update("Loading internal webpage...")
     // this.server.listener(this);
 
+
+
+
 window.onload = function() {
-    // const ws = new Server('ws://localhost:8080');
+    // const ws = new Server('ws://198.18.0.1:9090');
+
+    Demo();
+    
     ros.on('connection', () => {
         console.log('Connected to websocket server.');
     });
-    ros.on('error', (error) => {
+    ros.on('error', (error:any) => {
         console.log('Error connecting to websocket server: ', error);
     });
     ros.on('close', () => {
         console.log('Connection to websocket server closed.');
     });
-
-    Demo();
 };
