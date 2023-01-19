@@ -1,5 +1,5 @@
 let ros = new ROSLIB.Ros({
-    url : 'ws://10.203.3.61:9090',
+    url : 'ws://10.203.2.153:9090',
     // url : 'ws://192.168.50.44:9090',
     // url: 'ws://198.18.0.1:9090'
 });
@@ -43,11 +43,47 @@ const Demo= (/*send : any*/): void => {
 
     let poseDetectionBtn = document.getElementById("poseDetection")! as HTMLButtonElement;
     poseDetectionBtn.addEventListener('click', () => {
+        let poseAction = new ROSLIB.ActionClient({
+            ros : ros,
+            serverName : '/Pose_Detector',
+            actionName : 'perception_pepper/PoseDemoAction'
+        });
+
+        let goal = new ROSLIB.Goal({
+            actionClient : poseAction,
+            goalMessage : {
+                max_duration:{
+                    secs: 1000,
+                    nsecs: 0
+                }
+            }
+        });
+
+        goal.send();
+
         changePage(poseDetectionBtn.id);
     });
 
     let ageDetectionBtn = document.getElementById("ageDetection")! as HTMLButtonElement;
     ageDetectionBtn.addEventListener('click', () => {
+        let ageAction = new ROSLIB.ActionClient({
+            ros : ros,
+            serverName : '/face_demo',
+            actionName : 'perception_pepper/FaceDemoAction'
+        });
+
+        let goal = new ROSLIB.Goal({
+            actionClient : ageAction,
+            goalMessage : {
+                max_duration:{
+                    secs: 1000,
+                    nsecs: 0
+                }
+            }
+        });
+
+        goal.send();
+
         changePage(ageDetectionBtn.id);
     });
 
@@ -83,12 +119,15 @@ const ChatGpt= (): void => {
         Chat GPT
     </h1>
     <div class="button-container">
-    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        <div id="request">
-            <div class="request"> User : dummy </div>
+        <div id="loading">
+            <p>Please ask a question...</p>
+            <div id="loader" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
-        <div id="answer">
-            <div class="answer"> User : dummy </div>
+        <div id="chat-wrapper" class="chat-wrapper">
+            <div id="request">
+            </div>
+            <div id="answer">
+            </div>
         </div>
     </div>
     `;
@@ -98,8 +137,12 @@ const ChatGpt= (): void => {
         messageType : 'std_msgs/String'
     });
     request.subscribe((message: any) => {
-        let img : HTMLDivElement = document.getElementById("request") as HTMLDivElement;
-        img.innerHTML = '<div class="request"> User : ' + message.data + '</div>';
+        let loader: HTMLDivElement = document.getElementById("loading") as HTMLDivElement;
+        loader.innerHTML = '';
+        let chatWrapper : HTMLDivElement = document.getElementById("chat-wrapper") as HTMLDivElement;
+        chatWrapper.style.height = "100%";
+        let requestDom: HTMLDivElement = document.getElementById("request") as HTMLDivElement;
+        requestDom.innerHTML = '<div class="request"> User : ' + message.data + '</div>';
     });
 
     let answer = new ROSLIB.Topic({
@@ -109,8 +152,12 @@ const ChatGpt= (): void => {
     });
 
     answer.subscribe((message: any) => {
-        let img : HTMLDivElement = document.getElementById("answer") as HTMLDivElement;
-        img.innerHTML = '<div class="answer"> Pepper : ' + message.data + '</div>';
+        let loader: HTMLDivElement = document.getElementById("loading") as HTMLDivElement;
+        loader.innerHTML = '';
+        let chatWrapper : HTMLDivElement = document.getElementById("chat-wrapper") as HTMLDivElement;
+        chatWrapper.style.height = "100%";
+        let answerDom: HTMLDivElement = document.getElementById("answer") as HTMLDivElement;
+        answerDom.innerHTML = '<div class="answer"> Pepper : ' + message.data + '</div>';
     });
 
     let homeIcon = document.getElementById("home-icon")!;
@@ -129,10 +176,21 @@ const PoseDetection = (): void =>{
     <h1>
         Pose detection
     </h1>
-    <div class="button-container">
-
+    <div id="pose-container" class="button-container">
     </div>
     `;
+
+    let faceDetection = new ROSLIB.Topic({
+        ros : ros,
+        // name : "/naoqi_driver/camera/front/image_raw/compressed",
+        name : '/roboBreizh_demo/demo_face_detection',
+        messageType : 'sensor_msgs/CompressedImage'
+    });
+    faceDetection.subscribe((message: any) => {
+        let container: any = document.getElementById("pose-container");
+        container.innerHTML = `<img id="camera-image" class="camera-view" src="data:image/jpg;base64,${message.data}">`;
+    });
+
     let homeIcon = document.getElementById("home-icon")!;
     homeIcon.addEventListener('click', () => {
         changePage('home');        
@@ -147,7 +205,11 @@ const AgeDetection  = (): void => {
     <h1>
         Age detection
     </h1>
-    <img id="camera-image" src="">
+    <div id="pose-container" class="button-container">
+        <div id="loading">
+            <div id="loader" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+    </div>
     `;
 
     let faceDetection = new ROSLIB.Topic({
@@ -157,8 +219,8 @@ const AgeDetection  = (): void => {
         messageType : 'sensor_msgs/CompressedImage'
     });
     faceDetection.subscribe((message: any) => {
-        let img : any= document.getElementById("camera-image");
-        img.src = 'data:image/jpg;base64,' + message.data;
+        let container: any = document.getElementById("pose-container");
+        container.innerHTML = `<img id="camera-image" class="camera-view" src="data:image/jpg;base64,${message.data}">`;
     });
     let homeIcon = document.getElementById("home-icon")!;
     homeIcon.addEventListener('click', () => {

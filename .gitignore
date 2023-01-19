@@ -56,3 +56,5 @@ CATKIN_IGNORE
 
 *.pyc
 __pycache__
+
+.vscode

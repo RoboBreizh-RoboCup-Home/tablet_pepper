@@ -8,7 +8,13 @@ html, body
 }
 
 h1 {
+  font:  3em  'Aldrich', sans-serif;
+  margin: 50px 0 0 0 ;
+}
+
+p {
   font:  2em  'Aldrich', sans-serif;
+  margin: 0 0 0 0 ;
 }
 
 #contentDiv 
@@ -19,22 +25,35 @@ h1 {
   padding: 0 0 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   background-color:#18bc9c; 
 }
 
+.camera-view{
+  width: 640px;
+  height: 480px;
+} 
+
+.chat-wrapper {
+  margin-top: 20px;
+  height: 0%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: scroll;
+}
 .answer {
   font-family: 'Aldrich', sans-serif;
-  font-size: 12px;
+  font-size: 1.5em;
   font-weight: 400;
   background-color: grey;
   border-radius: 12px;
   border-style: none;
   margin: 0.5em;
   padding: 0.5em;
-  width: 80%;
-  height: 10%;
   -khtml-user-select: none; /* Konqueror HTML */
   user-select: none;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -42,15 +61,13 @@ h1 {
 
 .request {
   font-family: 'Aldrich', sans-serif;
-  font-size: 2em;
-  font-weight: 500;
+  font-size: 1.5em;
+  font-weight: 400;
   background-color: white;
   border-radius: 12px;
   border-style: none;
   margin: 0.5em;
   padding: 0.5em;
-  width: 50%;
-  height: 10%;
   -khtml-user-select: none; /* Konqueror HTML */
   user-select: none;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -58,6 +75,7 @@ h1 {
 
 /*Button that displays buttons with 3 columns and goes back to the bottom line if there is more that 3 element on 1 line*/
 .button-container {
+  height: 80%;
   padding: 0 10em 0 10em;
   display: flex;
   flex-wrap: wrap;
@@ -114,37 +132,6 @@ Text mode
   user-select: none;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
-/* For speech bubble triangle - not compatible with shadow
-.text-bubble 
-{ 
-  padding: 1em;
-  margin: 0.5em;
-  position: absolute; 
-  font-size: 4em; 
-  background: white; 
-  border-radius: .4em; 
-  height: 50%; width: 75%;
-  top: 2.5em; left: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  -khtml-user-select: none;
-  user-select: none;
-}
-.text-bubble:after
-{
-  content: '';
-  position: absolute; 
-  top: 1px; left: 50%;
-  width: 0; height: 0;
-  border: 2.6em solid transparent;
-  border-bottom-color: white;
-  border-top: 0; border-left: 0;
-  margin-left: -1.297em; margin-top: -2.594em;
-}
-*/
-
 
 /*
 Speech mode
