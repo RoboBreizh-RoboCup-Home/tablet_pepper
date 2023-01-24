@@ -9,5 +9,4 @@ declare global {
 	}
 }
 declare module 'roslib';
-
 export {};

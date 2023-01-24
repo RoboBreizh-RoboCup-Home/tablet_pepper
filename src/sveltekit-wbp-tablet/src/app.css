@@ -47,5 +47,6 @@
 @layer base {
     html{
         font-family: 'Neue Machina', sans-serif;
+        background-color: #E5E5E5;
     }
 }

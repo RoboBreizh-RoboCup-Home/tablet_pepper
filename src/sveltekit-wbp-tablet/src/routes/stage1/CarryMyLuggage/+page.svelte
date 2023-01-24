@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { ros } from '../../../store';
 	import ROSLIB from 'roslib';
-    import {page} from '$app/stores';
 	import Header from '$lib/Header.svelte';
 
 	let is_detection_camera = false;

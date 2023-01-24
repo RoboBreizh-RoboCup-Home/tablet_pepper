@@ -1,10 +1,9 @@
 <script lang="ts">
-	import ScenarioLink from '$lib/ScenarioLink.svelte';
-    import {ros} from '../store' 
+	import Link from '$lib/Link.svelte';
+	import { ros } from '../store';
+	import Header from '$lib/Header.svelte';
 
-	// let ros = new ROSLIB.Ros({
-	// 	url: 'ws://10.203.2.153:9090'
-	// });
+	const pageTitle = 'Robocup Manager';
 
 	ros.on('connection', function () {
 		console.log('Connected to websocket server.');
@@ -17,14 +16,24 @@
 	ros.on('close', function () {
 		console.log('Connection to websocket server closed.');
 	});
-
-
 </script>
 
-<h1>Robocup Manager</h1>
+<Header {pageTitle} />
 
-<div id="menu-wrapper" class="">
-    <a href="/stage1">Stage1</a>
-    <a href="/stage2">Stage2</a>
-    <ScenarioLink name="Final" url="final"/>
+<div class="basis-11/12 grid grid-cols-5 grid-rows-5 text-6xl italic">
+	<div class="row-start-2 col-start-2 col-span-2 flex justify-center items-center">
+		<div class="w-5/6">
+			<Link url="stage1" name="Stage 1" bgColor="bg-red-600"/>
+		</div>
+	</div>
+	<div class="row-start-3 col-start-3 col-span-2 flex justify-center items-center">
+		<div class="w-5/6">
+			<Link url="stage2" name="Stage 2" bgColor="bg-green-200"/>
+		</div>
+	</div>
+	<div class="row-start-4 col-start-2 col-span-2 flex justify-center items-center">
+		<div class="w-5/6">
+			<Link url="final" name="Final" bgColor="bg-cyan-300"/>
+		</div>
+	</div>
 </div>
