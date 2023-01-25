@@ -14,18 +14,23 @@
 		{ name: 'GPSR', url: `${pageName}/GPSR`, bgColor: 'bg-purple-500' }
 	];
 
-    let grid_rows_nb : string = (scenarios.length + 2).toString();
+	let grid_rows_nb: string = (scenarios.length + 2).toString();
 </script>
 
-<Header {pageTitle} />
+<Header {pageTitle} home={true}/>
 
-<div style="grid-template-rows: repeat({grid_rows_nb},minmax(0,1fr));" class="basis-11/12 grid grid-cols-5 italic ">
+<div
+	style="grid-template-rows: repeat({grid_rows_nb},minmax(0,1fr));"
+	class="basis-11/12 grid grid-cols-5 italic bg-yellow-50"
+>
 	{#each scenarios as scenario, index}
-        <div style="grid-row-start: {2+index}; 	grid-column-start: {(2 + (index % 2)).toString()};" class=" col-span-2 flex justify-center items-center">
-            <div class="w-5/6">
-                <Link {...scenario} id={index + 1} />
-            </div>
-        </div>
+		<div
+			style="grid-row-start: {2 + index}; 	grid-column-start: {(2 + (index % 2)).toString()};"
+			class=" col-span-2 flex justify-center items-center"
+		>
+			<div class="w-5/6">
+				<Link {...scenario} id={index + 1} />
+			</div>
+		</div>
 	{/each}
 </div>
-

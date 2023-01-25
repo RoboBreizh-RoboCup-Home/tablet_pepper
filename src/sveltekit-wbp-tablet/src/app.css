@@ -3,50 +3,50 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Neue Machina';
-    font-weight: 300;
-    font-style: normal;
-    src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapLight.ttf') format('truetype');
+	font-family: 'Neue Machina';
+	font-weight: 300;
+	font-style: normal;
+	src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapLight.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Neue Machina';
-    font-weight: 300;
-    font-style: italic;
-    src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapLightItalic.ttf') format('truetype');
+	font-family: 'Neue Machina';
+	font-weight: 300;
+	font-style: italic;
+	src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapLightItalic.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Neue Machina';
-    font-weight:400;
-    font-style: normal;
-    src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapRegular.ttf') format('truetype')
+	font-family: 'Neue Machina';
+	font-weight: 400;
+	font-style: normal;
+	src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapRegular.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Neue Machina';
-    font-weight:400;
-    font-style: italic;
-    src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapRegularItalic.ttf') format('truetype')
+	font-family: 'Neue Machina';
+	font-weight: 400;
+	font-style: italic;
+	src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapRegularItalic.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Neue Machina';
-    font-weight:800 ;
-    font-style:normal ;
-    src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapUltrabold.ttf') format('truetype')
+	font-family: 'Neue Machina';
+	font-weight: 800;
+	font-style: normal;
+	src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapUltrabold.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Neue Machina';
-    font-weight:800 ;
-    font-style: italic;
-    src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapUltraboldItalic.ttf') format('truetype')
+	font-family: 'Neue Machina';
+	font-weight: 800;
+	font-style: italic;
+	src: url('./fonts/PPNeueMachina/PPNeueMachina-InktrapUltraboldItalic.ttf') format('truetype');
 }
 
 @layer base {
-    html{
-        font-family: 'Neue Machina', sans-serif;
-        background-color: #E5E5E5;
-    }
+	html {
+		font-family: 'Neue Machina', sans-serif;
+		background-color: #e5e5e5;
+	}
 }
