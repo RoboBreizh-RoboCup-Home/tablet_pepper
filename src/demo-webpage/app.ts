@@ -15,8 +15,32 @@ const Demo= (/*send : any*/): void => {
         <button id="chatgpt" class="option-btn">(Chat GPT)</button>
         <button id="poseDetection" class="option-btn">Pose detection</button>
         <button id="ageDetection" class="option-btn">Age detection</button>
+        <button id="relationshipDetection" class="option-btn">Relationships Detection</button>
     </div>
     `;
+
+    let relationshipDetectionBtn= document.getElementById("chatgpt")! as HTMLButtonElement;
+    relationshipDetectionBtn.addEventListener('click', () => {
+        let gptAction = new ROSLIB.ActionClient({
+            ros : ros,
+            serverName : '/chat_demo_node',
+            actionName : 'perception_pepper/ChatDemoAction'
+        });
+
+        let goal = new ROSLIB.Goal({
+            actionClient : gptAction,
+            goalMessage : {
+                max_duration:{
+                    secs: 1000,
+                    nsecs: 0
+                }
+            }
+        });
+
+        goal.send();
+
+        changePage(relationshipDetectionBtn.id);
+    });
 
     let chatGptBtn = document.getElementById("chatgpt")! as HTMLButtonElement;
     chatGptBtn.addEventListener('click', () => {
@@ -101,6 +125,9 @@ const changePage = (page: string) => {
             AgeDetection();
             break;
         case 'chatgpt':
+            ChatGpt();
+            break;
+        case 'relationshipDetection':
             ChatGpt();
             break;
         default:
@@ -196,7 +223,34 @@ const PoseDetection = (): void =>{
         changePage('home');        
     });
 }
+const RelationDetection = (): void =>{
+    content.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    <h1>
+        Relationships Detection
+    </h1>
+    <div id="pose-container" class="button-container">
+    </div>
+    `;
 
+    let faceDetection = new ROSLIB.Topic({
+        ros : ros,
+        // name : "/naoqi_driver/camera/front/image_raw/compressed",
+        name : '/roboBreizh_demo/demo_face_detection',
+        messageType : 'sensor_msgs/CompressedImage'
+    });
+    faceDetection.subscribe((message: any) => {
+        let container: any = document.getElementById("pose-container");
+        container.innerHTML = `<img id="camera-image" class="camera-view" src="data:image/jpg;base64,${message.data}">`;
+    });
+
+    let homeIcon = document.getElementById("home-icon")!;
+    homeIcon.addEventListener('click', () => {
+        changePage('home');        
+    });
+}
 const AgeDetection  = (): void => {
     content.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
