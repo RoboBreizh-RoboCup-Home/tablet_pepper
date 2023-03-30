@@ -1,9 +1,17 @@
 var ros = new ROSLIB.Ros({
     url: 'ws://10.203.3.61:9090'
 });
+
 var content = document.getElementById("contentDiv");
 var Demo = function ( /*send : any*/) {
-    content.innerHTML = "\n    <h1>\n        Choose a demo\n    </h1>\n    <section class=\"button-container\">\n        <button id=\"chatgpt\" class=\"option-btn\">(Chat GPT)</button>\n        <button id=\"poseDetection\" class=\"option-btn\">Pose detection</button>\n        <button id=\"ageDetection\" class=\"option-btn\">Age detection</button>\n    </div>\n    ";
+    content_HTML = `
+    <h1>Choose a demo</h1>
+    <section class="button-container">
+        <button id="chatgpt" class="option-btn">(Chat GPT)</button>
+        <button id="poseDetection" class="option-btn">Pose detection</button>
+        <button id="ageDetection" class="option-btn">Age detection</button>
+    </section>`;
+    content.innerHTML = content_HTML;
     var chatGptBtn = document.getElementById("chatgpt");
     chatGptBtn.addEventListener('click', function () {
         var gptAction = new ROSLIB.ActionClient({
@@ -32,6 +40,7 @@ var Demo = function ( /*send : any*/) {
         changePage(ageDetectionBtn.id);
     });
 };
+
 var changePage = function (page) {
     switch (page) {
         case 'home':
@@ -51,8 +60,38 @@ var changePage = function (page) {
             break;
     }
 };
+
 var ChatGpt = function () {
-    content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n\n    <h1>\n        Chat GPT\n    </h1>\n    <div class=\"button-container\">\n    <div class=\"lds-roller\"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>\n        <div id=\"request\">\n            <div class=\"request\"> User : dummy </div>\n        </div>\n        <div id=\"answer\">\n            <div class=\"answer\"> User : dummy </div>\n        </div>\n    </div>\n    ";
+    const ChatGpt_HTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    <h1>
+        Chat GPT
+    </h1>
+    <div class="button-container">
+        <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div id="request">
+            <div class="request">
+                User: dummy
+            </div>
+        </div>
+        <div id="answer">
+            <div class="answer">
+                User: dummy
+            </div>
+        </div>
+    </div>`;
+    content.innerHTML = ChatGpt_HTML;
     var request = new ROSLIB.Topic({
         ros: ros,
         name: '/roboBreizh_chat_demo/user_utterance',
@@ -78,15 +117,74 @@ var ChatGpt = function () {
         changePage('home');
     });
 };
+
 var PoseDetection = function () {
-    content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n    <h1>\n        Pose detection\n    </h1>\n    <div class=\"button-container\">\n\n    </div>\n    ";
+    PoseDetection_HTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" 
+    fill="none" viewBox="0 0 24 24" 
+    stroke-width="1.5" 
+    stroke="currentColor" 
+    class="top-left-corner" 
+    id="home-icon">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round" 
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    
+    </svg>
+
+    <h1>
+        Pose detection
+    </h1>
+    
+    <div class="button-container">
+        <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div id="request">
+            <div class="request">
+                User: dummy
+            </div>
+        </div>
+        <div id="answer">
+            <div class="answer">
+                User: dummy
+            </div>
+        </div>
+    </div>`;
+    content.innerHTML = PoseDetection_HTML;
     var homeIcon = document.getElementById("home-icon");
     homeIcon.addEventListener('click', function () {
         changePage('home');
     });
 };
+
 var AgeDetection = function () {
-    content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n    <h1>\n        Age detection\n    </h1>\n    <img id=\"camera-image\" src=\"\">\n    ";
+    AgeDetection_HTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" 
+     fill="none" 
+     viewBox="0 0 24 24" 
+     stroke-width="1.5" 
+     stroke="currentColor" 
+     class="top-left-corner" 
+     id="home-icon">
+
+        <path stroke-linecap="round" 
+            stroke-linejoin="round" 
+            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    
+    </svg>
+    <h1>Age detection</h1>
+    <img id="camera-image" src="">`;
+    content.innerHTML = AgeDetection_HTML;
+
     var faceDetection = new ROSLIB.Topic({
         ros: ros,
         // name : "/naoqi_driver/camera/front/image_raw/compressed",
@@ -103,6 +201,7 @@ var AgeDetection = function () {
         changePage('home');
     });
 };
+
 window.onload = function () {
     // const ws = new Server('ws://198.18.0.1:9090');
     Demo();
