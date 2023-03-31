@@ -4,3 +4,9 @@
 </script>
 
 <Header {pageTitle} home={true} description={true}/>
+
+<main>
+	<h1>{pageTitle}</h1>
+	<p>Breakfast is served!</p>
+</main>
+

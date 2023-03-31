@@ -7,6 +7,9 @@ let ros = new ROSLIB.Ros({
 let content: HTMLDivElement = (document.getElementById("contentDiv")! as HTMLDivElement);
 
 const Demo= (/*send : any*/): void => {
+    /**
+     * Entry point of the webpage
+     */
     content.innerHTML = `
     <h1>
         Choose a demo
@@ -114,6 +117,10 @@ const Demo= (/*send : any*/): void => {
 }
 
 const changePage = (page: string) => {
+    /** 
+     * Change Page function
+     * @param page : the page to load
+     */
     switch (page) {
         case 'home':
             Demo();
@@ -137,6 +144,9 @@ const changePage = (page: string) => {
 }
 
 const ChatGpt= (): void => {
+    /**
+     * Load the chatgpt page
+     */
     content.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -196,6 +206,9 @@ const ChatGpt= (): void => {
 };
 
 const PoseDetection = (): void =>{
+    /**
+     * Load Pose Detection page
+     */
     content.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -224,6 +237,9 @@ const PoseDetection = (): void =>{
     });
 }
 const RelationDetection = (): void =>{
+    /**
+     * Load relation detection page
+     */
     content.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -252,6 +268,9 @@ const RelationDetection = (): void =>{
     });
 }
 const AgeDetection  = (): void => {
+    /**
+     * Load Age detection page
+     */
     content.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="top-left-corner" id="home-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -285,7 +304,6 @@ const AgeDetection  = (): void => {
 
 window.onload = function() {
     // const ws = new Server('ws://198.18.0.1:9090');
-
     Demo();
     
     ros.on('connection', () => {

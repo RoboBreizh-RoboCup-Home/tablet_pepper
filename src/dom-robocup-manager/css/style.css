@@ -1,0 +1,86 @@
+@font-face {
+    font-family: Robocup-title;
+    src: url(./fonts/PPNeueMachina/PPNeueMachina-InktrapUltrabold.ttf), url(./fonts/Aldrich/Aldrich-Regular.ttf), url(./fonts/Newake/Newake-Font-Demo.otf), sans-serif;
+}
+
+@font-face {
+    font-family: Robocup-content;
+    src: url(./fonts/PPNeueMachina/PPNeueMachina-InktrapRegular.ttf), url(./fonts/Aldrich/Aldrich-Regular.ttf), url(./fonts/Newake/Newake-Font-Demo.otf), sans-serif;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Robocup-content;
+}
+
+.font-bold {
+    font-family: Robocup-title;
+}
+.header-violet {
+    background-color: rgb(240, 171, 252);
+}
+
+.header{
+    border-bottom: 0.3em solid black;
+    height: 15%;
+}
+
+.header-blue {
+    background-color: rgb(165, 180, 252);
+}
+
+.header-left {
+    border-right: 0.3em solid black;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.btn {
+    border-radius: 0.7em;
+    border: 0.1em solid black;
+}
+
+.button-row {
+    width: 50%;
+    margin: 1em;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+}
+
+.btn-lg {
+    font-size: 2em;
+    line-height: 3em;
+}
+
+.button-red {
+    background-color: rgb(220, 38, 38);
+}
+.button-green {
+    background-color: rgb(148, 255, 185);
+}
+.button-blue {
+    background-color: rgb(103, 232, 249);
+}
+.button-yellow {
+    background-color: rgb(250, 204, 21),
+}
+.button-violet {
+    background-color: rgb(168, 85, 247);
+}
+
+.button-left {
+    margin-right: 30%;
+}
+
+.button-right {
+    margin-left: 30%;
+}
