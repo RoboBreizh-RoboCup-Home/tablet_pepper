@@ -1,38 +1,45 @@
-var ros = new ROSLIB.Ros({
-    url: 'ws://10.203.2.153:9090'
-});
-var is_detection_camera = false;
 var detection_camera_data = null;
-var pageTitle = 'Carry my Luggage';
+var ros = new ROSLIB.Ros({
+    // url: 'ws://192.168.50.44:9090'
+    // url : 'ws://localhost:9090'
+    url: 'ws://198.18.0.1:9090'
+    // url: 'ws://127.0.0.1:9090'
+    // url: 'ws://10.203.2.153:9090'
+});
+ros.on('connection', function () {
+    content_initialize();
+});
+
+// listen to the topic robobreizh/detection_camera of message type sensor_msgs/Image
 var detection_camera = new ROSLIB.Topic({
     ros: ros,
-    name: 'robobreizh/detection_camera',
+    name: '/naoqi_driver/camera/front/image_raw/compressed',
     messageType: 'sensor_msgs/CompressedImage'
 });
+
+// call the callback function upon receiving a message
 detection_camera.subscribe(function (message) {
-    is_detection_camera = true;
     detection_camera_data = message.data;
+    image_update();
 });
-window.onload = function () {
-    var title = document.createElement('h1');
+
+function content_initialize () {
     var content_container = document.getElementById('content-container');
-    title.innerHTML = "<h1>Camera is not connected</h1>";
-    console.log('is_detection_camera', is_detection_camera);
-    if (is_detection_camera) {
-        var img = document.createElement('img');
-        img.src = 'data:image/jpeg;base64,' + detection_camera_data;
-        img.alt = 'detection_camera';
-        img.style.width = '100%';
-        img.style.height = '100%';
-        title.innerHTML = "<h1>Camera is connected</h1>";
-        if (content_container) {
-            content_container.appendChild(title);
-            content_container.appendChild(img);
-        }
-    }
-    else {
-        if (content_container) {
-            content_container.appendChild(title);
-        }
-    }
-};
+    var title = document.getElementById('socket-status');
+    title.innerHTML = "Websocket server connected";
+    content_container.appendChild(title);
+
+    var img = document.createElement('img');
+    img.alt = 'detection camera image';
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.id = 'detection-camera';
+    content_container.appendChild(img);
+}
+
+function image_update() {
+    var camera_status = document.getElementById('camera-status');
+    camera_status.innerHTML = "Camera connected";
+    update_src = 'data:image/jpeg;base64,' + detection_camera_data;
+    document.getElementById('detection-camera').src = update_src;
+}
