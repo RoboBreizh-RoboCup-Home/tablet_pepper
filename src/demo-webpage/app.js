@@ -1,8 +1,13 @@
 var ros = new ROSLIB.Ros({
-    url: 'ws://10.203.2.153:9090'
+    // url : 'ws://10.203.2.153:9090',
+    // url : 'ws://192.168.50.44:9090',
+    url: 'ws://198.18.0.1:9090'
 });
 var content = document.getElementById("contentDiv");
 var Demo = function ( /*send : any*/) {
+    /**
+     * Entry point of the webpage
+     */
     content.innerHTML = "\n    <h1>\n        Choose a demo\n    </h1>\n    <section class=\"button-container\">\n        <button id=\"chatgpt\" class=\"option-btn\">(Chat GPT)</button>\n        <button id=\"poseDetection\" class=\"option-btn\">Pose detection</button>\n        <button id=\"ageDetection\" class=\"option-btn\">Age detection</button>\n        <button id=\"relationshipDetection\" class=\"option-btn\">Relationships Detection</button>\n    </div>\n    ";
     var relationshipDetectionBtn = document.getElementById("chatgpt");
     relationshipDetectionBtn.addEventListener('click', function () {
@@ -82,6 +87,10 @@ var Demo = function ( /*send : any*/) {
     });
 };
 var changePage = function (page) {
+    /**
+     * Change Page function
+     * @param page : the page to load
+     */
     switch (page) {
         case 'home':
             Demo();
@@ -104,6 +113,9 @@ var changePage = function (page) {
     }
 };
 var ChatGpt = function () {
+    /**
+     * Load the chatgpt page
+     */
     content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n\n    <h1>\n        Chat GPT\n    </h1>\n    <div class=\"button-container\">\n        <div id=\"loading\">\n            <p>Please ask a question...</p>\n            <div id=\"loader\" class=\"lds-roller\"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>\n        </div>\n        <div id=\"chat-wrapper\" class=\"chat-wrapper\">\n            <div id=\"request\">\n            </div>\n            <div id=\"answer\">\n            </div>\n        </div>\n    </div>\n    ";
     var request = new ROSLIB.Topic({
         ros: ros,
@@ -139,6 +151,9 @@ var ChatGpt = function () {
     });
 };
 var PoseDetection = function () {
+    /**
+     * Load Pose Detection page
+     */
     content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n    <h1>\n        Pose detection\n    </h1>\n    <div id=\"pose-container\" class=\"button-container\">\n    </div>\n    ";
     var faceDetection = new ROSLIB.Topic({
         ros: ros,
@@ -148,7 +163,7 @@ var PoseDetection = function () {
     });
     faceDetection.subscribe(function (message) {
         var container = document.getElementById("pose-container");
-        container.innerHTML = "<img id=\"camera-image\" class=\"camera-view\" src=\"data:image/jpg;base64,".concat(message.data, "\">");
+        container.innerHTML = "<img id=\"camera-image\" class=\"camera-view\" src=\"data:image/jpg;base64," + message.data + "\">";
     });
     var homeIcon = document.getElementById("home-icon");
     homeIcon.addEventListener('click', function () {
@@ -156,6 +171,9 @@ var PoseDetection = function () {
     });
 };
 var RelationDetection = function () {
+    /**
+     * Load relation detection page
+     */
     content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n    <h1>\n        Relationships Detection\n    </h1>\n    <div id=\"pose-container\" class=\"button-container\">\n    </div>\n    ";
     var faceDetection = new ROSLIB.Topic({
         ros: ros,
@@ -165,7 +183,7 @@ var RelationDetection = function () {
     });
     faceDetection.subscribe(function (message) {
         var container = document.getElementById("pose-container");
-        container.innerHTML = "<img id=\"camera-image\" class=\"camera-view\" src=\"data:image/jpg;base64,".concat(message.data, "\">");
+        container.innerHTML = "<img id=\"camera-image\" class=\"camera-view\" src=\"data:image/jpg;base64," + message.data + "\">";
     });
     var homeIcon = document.getElementById("home-icon");
     homeIcon.addEventListener('click', function () {
@@ -173,6 +191,9 @@ var RelationDetection = function () {
     });
 };
 var AgeDetection = function () {
+    /**
+     * Load Age detection page
+     */
     content.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"top-left-corner\" id=\"home-icon\">\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\" />\n    </svg>\n    <h1>\n        Age detection\n    </h1>\n    <div id=\"pose-container\" class=\"button-container\">\n        <div id=\"loading\">\n            <div id=\"loader\" class=\"lds-roller\"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>\n        </div>\n    </div>\n    ";
     var faceDetection = new ROSLIB.Topic({
         ros: ros,
@@ -182,7 +203,7 @@ var AgeDetection = function () {
     });
     faceDetection.subscribe(function (message) {
         var container = document.getElementById("pose-container");
-        container.innerHTML = "<img id=\"camera-image\" class=\"camera-view\" src=\"data:image/jpg;base64,".concat(message.data, "\">");
+        container.innerHTML = "<img id=\"camera-image\" class=\"camera-view\" src=\"data:image/jpg;base64," + message.data + "\">";
     });
     var homeIcon = document.getElementById("home-icon");
     homeIcon.addEventListener('click', function () {

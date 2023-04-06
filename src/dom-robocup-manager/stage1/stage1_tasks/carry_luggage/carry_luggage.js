@@ -1,10 +1,6 @@
 var detection_camera_data = null;
 var ros = new ROSLIB.Ros({
-    // url: 'ws://192.168.50.44:9090'
-    // url : 'ws://localhost:9090'
-    url: 'ws://198.18.0.1:9090'
-    // url: 'ws://127.0.0.1:9090'
-    // url: 'ws://10.203.2.153:9090'
+    url: 'ws://192.168.50.44:9090'
 });
 ros.on('connection', function () {
     content_initialize();
@@ -40,6 +36,5 @@ function content_initialize () {
 function image_update() {
     var camera_status = document.getElementById('camera-status');
     camera_status.innerHTML = "Camera connected";
-    update_src = 'data:image/jpeg;base64,' + detection_camera_data;
-    document.getElementById('detection-camera').src = update_src;
+    document.getElementById('detection-camera').src = 'data:image/jpeg;base64,' + detection_camera_data;
 }

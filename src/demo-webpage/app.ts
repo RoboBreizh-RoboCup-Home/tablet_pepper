@@ -1,7 +1,7 @@
 let ros = new ROSLIB.Ros({
-    url : 'ws://10.203.2.153:9090',
+    // url : 'ws://10.203.2.153:9090',
     // url : 'ws://192.168.50.44:9090',
-    // url: 'ws://198.18.0.1:9090'
+    url: 'ws://198.18.0.1:9090'
 });
 
 let content: HTMLDivElement = (document.getElementById("contentDiv")! as HTMLDivElement);
