@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="../../../bootstrap/css/bootstrap-grid.min.css" />
 
     <link rel="stylesheet" href="../../../css/style.css" />
-    <script src="../../../index.js" defer></script>
+    <script src="../../../roslib.min.js" defer></script>
+    <script src="./receptionist.js" defer></script>
 
     <title>Robocup Manager</title>
 </head>
@@ -18,10 +19,10 @@
     <div class="row text-center header">
         <!-- header row with two elements side by side-->
         <div class="col-sm-2 header-left header-yellow font-bold">
-            <h1 onclick="location.href='../../../index.html';">Home</h1>
+            <h1 onclick="location.href='../../../index.html'; clean_subscription();">Home</h1>
         </div>
         <div class="col-sm-9 header-left header-violet font-bold">
-            <h1>Stage 1</h1>
+            <h1>Receptionist</h1>
         </div>
         <div class="col-sm-1  header-blue">
             <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="48px" height="48px">
@@ -30,8 +31,22 @@
             </svg>
         </div>
     </div>
-    <div class="content-container">
-        
+    <div id="content-container">
+        <div id="camera-status" class="to-be-cleared">Camera disconnected</div>
+        <div id="socket-status" class="to-be-cleared">Websocket disconnected</div>
+        <div class="row">
+            <div class="col-sm-8">
+                <img src="" id="detection-camera" class="animed_image" style="display: none;">
+            </div>
+            <div class="col-sm-4">
+                <p><h2 id="guest-name" style="display: none;">Hello </h2></p>
+                <p><h3 id="fav-drink" style="display: none;">Now serving: </h3></p>
+                <div class="button-container">
+                    <button id="start-button" class="btn btn-primary btn-lg switch-buttons" style="display: none;" onclick="start_button_click()">Start</button>
+                    <button id="stop-button" class="btn btn-danger btn-lg switch-buttons" style="display: none;" onclick="stop_button_click()">Stop</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
