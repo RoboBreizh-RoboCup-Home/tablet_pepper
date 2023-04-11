@@ -33,7 +33,9 @@ robot_text.subscribe(function (message) {
 });
 current_task_listener.subscribe(function (message) {
     // call update_task on change
-    update_task(String(message.data));
+    if (String(message.data) != "F") {
+        update_task(String(message.data));
+    }
 });
 ros.on('connection', function () {
     ready_to_display(function () {});
