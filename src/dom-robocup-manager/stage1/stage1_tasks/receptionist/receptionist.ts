@@ -6,20 +6,46 @@ var detection_camera = new ROSLIB.Topic({
     name: '/naoqi_driver/camera/front/image_raw/compressed',
     messageType: 'sensor_msgs/CompressedImage'
 });
-detection_camera.subscribe(function (message) {
-    detection_camera_data = message.data;
-    image_update();
+var operator_text = new ROSLIB.Topic({
+    ros: ros,
+    name: '/operator_text',
+    messageType: 'std_msgs/String'
 });
+var robot_text = new ROSLIB.Topic({
+    ros: ros,
+    name: '/robot_text',
+    messageType: 'std_msgs/String'
+});
+var current_task_listener = new ROSLIB.Topic({ // /pnp/currentActivePlaces
+    ros: ros,
+    name: '/pnp/currentActivePlaces',
+    messageType: 'std_msgs/String'
+});
+detection_camera.subscribe(function (message) {
+    update_image(message.data);
+});
+operator_text.subscribe(function (message) {
+    update_text(String(message.data), "operator_text");
+});
+robot_text.subscribe(function (message) {
+    update_text(String(message.data), "robot_text");
+});
+current_task_listener.subscribe(function (message) {
+    // call update_task on change
+    if (String(message.data) != "f") {
+        update_task(String(message.data));
+    }
+});
+var initial_html;
+window.onload = function () {
+    initial_html = document.getElementsByTagName('html')[0];
+};
 ros.on('connection', function () {
     ready_to_display(function () {});
 });
 function ready_to_display(callback) {
     var start_button = document.getElementById('start-button');
     start_button.disabled = true;
-    var guest_name = document.getElementById('guest-name');
-    guest_name.style.display = "inline";
-    var fav_drink = document.getElementById('fav-drink');
-    fav_drink.style.display = "inline";
     var buttons = document.getElementsByClassName('switch-buttons');
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].style.display = "inline";
@@ -68,11 +94,32 @@ function stop_button_click() {
     });
     stop_button_publisher.publish(stop_button_message);
 }
-var detection_camera_data = "";
-function image_update() {
-    document.getElementById('detection-camera').src = 'data:image/jpeg;base64,' + detection_camera_data;
+function update_text(new_text, source) {
+    var convo = document.getElementById('convo');
+    var new_convo = document.createElement('li');
+    new_convo.classList.add(source);
+    new_convo.innerHTML = new_text;
+    convo.appendChild(new_convo);
+    // show only the last 5 messages
+    var children = convo.children;
+    while (children.length > 5) {
+        convo.removeChild(children[0]);
+    }
+}
+function update_image(new_image) {
+    document.getElementById('detection-camera').src = 'data:image/jpeg;base64,' + String(new_image);
+}
+function update_task(new_task) {
+    var task = document.getElementById('current-task');
+    task.innerHTML = new_task;
 }
 function clean_subscription() {
     detection_camera.unsubscribe();
-    current_task_listener.unsubscribe();
+    robot_text.unsubscribe();
+    operator_text.unsubscribe();
+}
+function initialize() 
+{
+    var html = document.getElementsByTagName('html')[0];
+    html.innerHTML = initial_html.innerHTML;
 }
