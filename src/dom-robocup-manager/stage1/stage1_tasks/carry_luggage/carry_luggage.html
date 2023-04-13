@@ -5,21 +5,22 @@
     <!-- icon -->
     <link rel="icon" href="../../../static/favicon.png">
 
+    <header></header>
+
     <!-- bootstrap -->
     <link rel="stylesheet" href="../../../bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../../bootstrap/css/bootstrap-grid.min.css" />
 
     <link rel="stylesheet" href="../../../css/style.css" />
     <script src="../../../roslib.min.js" defer></script>
-    <script src="./carry_luggage.js" defer></script>
+    <script src="../stage1.js" defer></script>
 
-    <title>Robocup Manager</title>
+    <title>CarryLuggage</title>
 </head>
 <body>
     <div class="row text-center header">
-        <!-- header row with two elements side by side-->
         <div class="col-sm-2 header-left header-yellow font-bold">
-            <h1 onclick="location.href='../../../index.html'; clean_subscription();">Home</h1>
+            <h1 onclick="clean_subscription(); location.href='../../../index.html';">Home</h1>
         </div>
         <div class="col-sm-9 header-left header-violet font-bold">
             <h1>Carry My Luggage</h1>
@@ -39,7 +40,9 @@
                 <img src="" id="detection-camera" class="animed_image" style="display: none;">
             </div>
             <div class="col-sm-4">
-                <h2 id="current-task"></h2>
+                <h2 id="current-task">
+                    <ul id="task-items"></ul>
+                </h2>
                 <ul id="convo"></ul>
                 <div class="button-container">
                     <button id="start-button" class="btn btn-primary btn-lg switch-buttons" style="display: none;" onclick="start_button_click()">Start</button>

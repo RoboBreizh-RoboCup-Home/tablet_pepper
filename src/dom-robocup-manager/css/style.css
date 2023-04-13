@@ -89,6 +89,16 @@ svg {
     align-self: center;
 }
 
+.col-sm-4 {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    margin-top: auto;
+    align-self: center;
+}
+
 .btn {
     border-radius: 0.7em;
     border: 0.1em solid black;
@@ -154,4 +164,8 @@ svg {
 
 .to-be-cleared {
     display: block;
+}
+
+#convo, #current-task {
+    height: 40%;
 }

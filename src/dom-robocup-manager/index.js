@@ -9,7 +9,6 @@ function cascade_position_changer() {
     var button_positions = ["button-left", "button-right"];
     var cascade_position_objects = document.querySelectorAll(".cascade_position");
     for (var i = 0; i < cascade_position_objects.length; i++) {
-        console.log(cascade_position_objects[i].className);
         cascade_position_objects[i].className += " " + button_positions[i % 2];
     }
 }
