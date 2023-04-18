@@ -38,7 +38,15 @@ current_task_listener.subscribe(function (message) {
 ros.on('connection', function () {
     ready_to_display(function () { });
 });
+ros.on('error', function (error) {
+    console.log(error);
+    unsubscribe();
+});
+ros.on('close', function () {
+    unsubscribe();
+});
 function ready_to_display(callback) {
+    start_button_click();
     var start_button = document.getElementById('start-button');
     start_button.disabled = true;
     var buttons = document.getElementsByClassName('switch-buttons');
@@ -70,11 +78,11 @@ function start_button_click() {
         name: '/pnp/planToExec',
         messageType: 'std_msgs/String'
     });
-    var start_task = document.getElementsByTagName('title')[0].innerHTML;
-    var start_button_message = new ROSLIB.Message({
-        data: String(start_task)
+    var message = document.getElementById('title').innerHTML;
+    var start_message = new ROSLIB.Message({
+        data: message
     });
-    start_button_publisher.publish(start_button_message);
+    start_button_publisher.publish(start_message);
 }
 function stop_button_click() {
     var stop_button = document.getElementById('stop-button');
@@ -91,20 +99,37 @@ function stop_button_click() {
     });
     stop_button_publisher.publish(stop_button_message);
 }
+function emphasize_new_update(id) {
+    var element = document.getElementById(id);
+    for (var i = 0; i < element.children.length; i++) {
+        element.children[i].style.textDecoration = "none";
+        element.children[i].style.fontWeight = "normal";
+        element.children[i].style.listStyleType = "circle";
+    }
+    if (element.children.length > 0) {
+        element.children[element.children.length - 1].style.textDecoration = "underline";
+        element.children[element.children.length - 1].style.fontWeight = "bold";
+        element.children[element.children.length - 1].style.listStyleType = "disc";
+    }
+}
+function camel_case_to_sentence_case(text) {
+    var sentence = text.replace(/([A-Z])/g, ' $1').toLowerCase().substr(1).replace('_', ' ');
+    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+}
 function update_image(new_image) {
     document.getElementById('detection-camera').src = 'data:image/jpeg;base64,' + String(new_image);
 }
 function update_text(new_text, source) {
     var convo = document.getElementById('convo');
     var new_convo = document.createElement('li');
-    new_convo.classList.add(source);
+    var children = convo.children;
+    new_convo.classList.add(String(source));
     new_convo.innerHTML = new_text;
     convo.appendChild(new_convo);
-    // show only the last 5 messages
-    var children = convo.children;
-    while (children.length > 5) {
+    while (children.length > 3) {
         convo.removeChild(children[0]);
     }
+    convo.scrollTop = convo.scrollHeight;
 }
 function update_task(new_task) {
     var task = document.getElementById('task-items');
@@ -113,17 +138,15 @@ function update_task(new_task) {
     }
     var new_task_item = document.createElement('li');
     new_task_item.innerHTML = new_task;
-    task.appendChild(new_task_item);
     var children = task.children;
+    task.appendChild(new_task_item);
     while (children.length > 3) {
         task.removeChild(children[0]);
     }
-    for (var i = 0; i < children.length; i++) {
-        children[i].style.textDecoration = "none";
-    }
-    children[children.length - 1].style.textDecoration = "underline";
+    task.scrollTop = task.scrollHeight;
+    emphasize_new_update('task-items');
 }
-function clean_subscription() {
+function unsubscribe() {
     detection_camera.unsubscribe();
     operator_text.unsubscribe();
     robot_text.unsubscribe();
@@ -138,8 +161,4 @@ function initialize() {
     task_items.innerHTML = "";
     var convo = document.getElementById('convo');
     convo.innerHTML = "";
-}
-function camel_case_to_sentence_case(text) {
-    var sentence = text.replace(/([A-Z])/g, ' $1').toLowerCase().substr(1).replace('_', ' ');
-    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 }
