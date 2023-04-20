@@ -49,7 +49,7 @@ ros.on('connection', function () {
 });
 
 ros.on('error', function (error) {
-    console.log(error);
+    // console.log(error);
     unsubscribe();
 });
 
@@ -61,10 +61,8 @@ function ready_to_display(callback) {
     start_button_click();
     var start_button = document.getElementById('start-button');
     start_button.disabled = true;
-    var buttons = document.getElementsByClassName('switch-buttons');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].style.display = "inline";
-    }
+    var line = document.getElementsByClassName('line');
+    line[0].style.display = "inline";
     var text_prompts = document.getElementsByClassName('to-be-cleared');
     for (var i = 0; i < text_prompts.length; i++) {
         text_prompts[i].innerHTML = text_prompts[i].innerHTML.replace("disconnected", "✅");
@@ -76,8 +74,11 @@ function ready_to_display(callback) {
         }
         callback();
     }, 1000);
-    var image = document.getElementById('detection-camera');
-    image.style.display = "inline";
+    fade(1);
+    var buttons = document.getElementsByClassName('on-connect');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.display = "inline";
+    }
 }
 
 function start_button_click() {
@@ -133,8 +134,23 @@ function camel_case_to_sentence_case(text) {
     return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 }
 
+function resize_image(img: HTMLImageElement) {
+    // resize image to 14:10 ratio
+    var ratio = 14 / 9;
+    var width = img.width;
+    var height = img.height;
+    if (width / height > ratio) {
+        img.width = height * ratio;
+    }
+    else {
+        img.height = width / ratio;
+    }
+}
+
 function update_image(new_image) {
-    document.getElementById('detection-camera').src = 'data:image/jpeg;base64,' + String(new_image);
+    var image = document.getElementById('detection-camera');
+    image.src = 'data:image/jpeg;base64,' + String(new_image);
+    resize_image(image);
 }
 
 function update_text(new_text, source) {
@@ -167,11 +183,28 @@ function update_task(new_task) {
     emphasize_new_update('task-items');
 }
 
+function fade(mode: int) {
+    let content = document.getElementById('content-container');
+    let contents = content.children;
+    for (var i = 0; i < contents.length; i++) {
+        mode == 0 ? contents[i].classList.add('fadeout') : contents[i].classList.add('fadein');
+    }
+}
+
 function unsubscribe() {
-    detection_camera.unsubscribe();
-    operator_text.unsubscribe();
-    robot_text.unsubscribe();
-    current_task_listener.unsubscribe();
+    fade(0);
+    if (detection_camera) {
+        detection_camera.unsubscribe();
+    }
+    if (operator_text) {
+        operator_text.unsubscribe();
+    }
+    if (robot_text) {
+        robot_text.unsubscribe();
+    }
+    if (current_task_listener) {
+        current_task_listener.unsubscribe();
+    }
     detection_camera = null;
     operator_text = null;
     robot_text = null;
