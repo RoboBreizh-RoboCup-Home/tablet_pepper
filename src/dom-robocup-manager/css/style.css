@@ -62,8 +62,8 @@ svg {
 }
 
 .animed_image {
-    /* height: 560px;
-    width: auto;
+    height: 559px;
+    /* width: auto;
     object-fit: contain;
     border: 1px solid black;
     padding: 0; */
@@ -71,7 +71,7 @@ svg {
     top: 0; /* aligns the top of the img element with the top of the container */
     left: 0; /* aligns the left of the img element with the left of the container */
     width: 100%; /* sets the width of the img element to 100% of the container */
-    height: 100%; /* sets the height of the img element to 100% of the container */
+    /* height: 100%; sets the height of the img element to 100% of the container */
     object-fit: cover; /* scales the image to cover the entire container while maintaining the aspect ratio */
 }
 
@@ -95,9 +95,11 @@ svg {
     align-self: center;
 }
 
-.col-sm-4 {
+.prompt-column
+{
     display: flex;
     flex-direction: column;
+    height: 559px;
 }
 
 .button-container {
@@ -153,6 +155,9 @@ svg {
     margin: 0;
     font-weight: 1000;
     font-size: 1.75rem;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .switch-buttons {
@@ -199,4 +204,27 @@ svg {
     height: 2px;
     width: 100%;
     background-color: black
+}
+
+@keyframes transition {
+    0% {
+        opacity: 0;
+
+    }
+    100% {
+        opacity: 1;
+    }
+}
+  
+/* Apply the animation to the page1 element */
+* {
+    animation-name: transition;
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+}
+
+button:disabled, button[disabled] {
+    background-color: gray !important;
+    color: #666 !important;
+    border-color: black !important;
 }

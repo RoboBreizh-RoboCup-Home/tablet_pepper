@@ -74,7 +74,6 @@ function ready_to_display(callback) {
         }
         callback();
     }, 1000);
-    fade(1);
     var buttons = document.getElementsByClassName('on-connect');
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].style.display = "inline";
@@ -136,7 +135,7 @@ function camel_case_to_sentence_case(text) {
 
 function resize_image(img: HTMLImageElement) {
     // resize image to 14:10 ratio
-    var ratio = 14 / 9;
+    var ratio = 12 / 11;
     var width = img.width;
     var height = img.height;
     if (width / height > ratio) {
@@ -183,16 +182,7 @@ function update_task(new_task) {
     emphasize_new_update('task-items');
 }
 
-function fade(mode: int) {
-    let content = document.getElementById('content-container');
-    let contents = content.children;
-    for (var i = 0; i < contents.length; i++) {
-        mode == 0 ? contents[i].classList.add('fadeout') : contents[i].classList.add('fadein');
-    }
-}
-
 function unsubscribe() {
-    fade(0);
     if (detection_camera) {
         detection_camera.unsubscribe();
     }
