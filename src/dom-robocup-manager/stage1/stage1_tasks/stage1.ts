@@ -129,7 +129,18 @@ function emphasize_new_update(id) {
 }
 
 function camel_case_to_sentence_case(text) {
-    var sentence = text.replace(/([A-Z])/g, ' $1').toLowerCase().substr(1).replace('_', ' ');
+    var sentence = text.replace(/([A-Z])/g, ' $1').toLowerCase().replace('_', ' ');
+    if (sentence.charAt(0) == ' ' ){
+        sentence = sentence.substr(1);
+    }
+    // if pattern "g p s r" or "e g p s r" is detected in the sentence, replace with "GPSR" or "EGPSR"
+    if (sentence.indexOf("g p s r") != -1) {
+        sentence = sentence.replace("g p s r", "GPSR");
+    }
+    if (sentence.indexOf("e g p s r") != -1) {
+        sentence = sentence.replace("e g p s r", "EGPSR");
+    }
+    sentence = sentence.replace(" i ", " I ");
     return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 }
 

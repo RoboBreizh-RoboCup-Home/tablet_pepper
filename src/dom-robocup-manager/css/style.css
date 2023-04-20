@@ -195,8 +195,9 @@ svg {
     font-size: 1rem;
 }
 
-.convo-container, .current-task-container {
-    height: 14rem;
+.convo-container, .current-task-container{
+    animation-name: none;
+    height: 15.45rem;
     padding-left: 22px;
 }
 
@@ -217,14 +218,50 @@ svg {
 }
   
 /* Apply the animation to the page1 element */
-* {
+*{
     animation-name: transition;
-    animation-duration: 0.3s;
+    animation-duration: 0.4s;
     animation-fill-mode: both;
 }
 
 button:disabled, button[disabled] {
-    background-color: gray !important;
+    background-color: rgb(170, 170, 170) !important;
     color: #666 !important;
     border-color: black !important;
+}
+
+.popup {
+    margin: 2em;
+    padding: 1em;
+    position: absolute;
+    width: 75%;
+    left: 47%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: max-content;
+    z-index: 9999;
+    border: black solid 2px;
+    border-radius: 1em;
+    background-color: rgb(255, 249, 183);
+}
+
+.popup-prompt {
+    font-size: medium;
+    text-align: center;
+    background-color: inherit;
+}
+
+.popup-text, .popup-text span {
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: inherit;
+}
+
+.popup-confirm {
+    height: 1.75em;
+    width: 11em;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
