@@ -1,10 +1,9 @@
 var ros = new ROSLIB.Ros({
     url: 'ws://192.168.50.44:9090'
 });
-// robobreizh/sentence_gpsr
 var sentence_gpsr = new ROSLIB.Topic({
     ros: ros,
-    name: '/sentence_gpsr',
+    name: '/robobreizh/sentence_gpsr',
     messageType: 'std_msgs/String'
 });
 var previous_sentence_gpsr = "";
@@ -17,13 +16,11 @@ sentence_gpsr.subscribe(function (message) {
 var last_popup_time = 0;
 var popup_cooldown = 5 * 1000;
 function create_popup(gpsr_string) {
-    var now = Date.now();
-    if (now - last_popup_time < popup_cooldown) {
-        // Cooldown period not elapsed yet, do nothing
-        return;
-    }
-    // Cooldown period elapsed, create popup and update last_popup_time
-    last_popup_time = now;
+    // var now = Date.now();
+    // if (now - last_popup_time < popup_cooldown) {
+    //     return;
+    // }
+    // last_popup_time = now;
     var popup = document.createElement('div');
     popup.classList.add('popup');
     var popup_text = document.createElement('div');
@@ -38,18 +35,36 @@ function create_popup(gpsr_string) {
     confirm_button.classList.add('popup-confirm');
     confirm_button.innerHTML = "Looks good!";
     confirm_button.onclick = function () {
+        var sentence = get_sentence();
         document.body.removeChild(popup);
         return;
     };
     popup.appendChild(confirm_button);
 }
-// edit a word in the popup
 function edit_word(token) {
     return function () {
-        var new_text = prompt("Edit word", token.innerHTML.trim());
-        if ((new_text != null) && (new_text != '') && new_text.trim() != "null") {
+        var new_text = prompt("Edit sentence", token.innerHTML.trim());
+        if ((new_text != null) && (new_text.trim() != "") && (new_text.trim() != "null")) {
             token.innerHTML = new_text;
         }
         ;
     };
+}
+function get_sentence() {
+    var sentence = "";
+    var corrected_sentence = document.getElementsByClassName('popup-text');
+    for (var i = 0; i < corrected_sentence.length; i++) {
+        sentence += corrected_sentence[i].innerHTML.trim() + " ";
+    }
+    sentence = sentence.trim();
+    var sentence_sender = new ROSLIB.Topic({
+        ros: ros,
+        name: '/robobreizh/sentence_gpsr_corrected',
+        messageType: 'std_msgs/String'
+    });
+    var sentence_msg = new ROSLIB.Message({
+        data: sentence
+    });
+    sentence_sender.publish(sentence_msg);
+    return sentence;
 }

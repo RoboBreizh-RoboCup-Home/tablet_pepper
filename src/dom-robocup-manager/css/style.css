@@ -95,8 +95,13 @@ svg {
     align-self: center;
 }
 
+.image-column {
+    padding: 0;
+}
+
 .prompt-column
 {
+    padding: 0;
     display: flex;
     flex-direction: column;
     height: 559px;
@@ -225,8 +230,8 @@ svg {
 }
 
 button:disabled, button[disabled] {
-    background-color: rgb(170, 170, 170) !important;
-    color: #666 !important;
+    background-color: rgb(192, 192, 192) !important;
+    color: rgb(134, 134, 134) !important;
     border-color: black !important;
 }
 
@@ -235,7 +240,7 @@ button:disabled, button[disabled] {
     padding: 1em;
     position: absolute;
     width: 75%;
-    left: 47%;
+    left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     height: max-content;
@@ -258,9 +263,11 @@ button:disabled, button[disabled] {
 }
 
 .popup-confirm {
-    height: 1.75em;
-    width: 11em;
-    margin-top: 1em;
+    height: 2em;
+    width: 7em;
+    font-size: 2em;
+    border-radius: 0.7em;
+    margin-top: 0.5em;
     margin-left: auto;
     margin-right: auto;
     display: block;
