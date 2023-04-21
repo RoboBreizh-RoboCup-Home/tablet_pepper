@@ -236,6 +236,10 @@ button:disabled, button[disabled] {
 }
 
 .popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin: 2em;
     padding: 1em;
     position: absolute;
@@ -256,7 +260,14 @@ button:disabled, button[disabled] {
     background-color: inherit;
 }
 
-.popup-text, .popup-text span {
+.popup-text {
+    min-height: 6em;
+    max-height: 10em;
+    line-height: 2em;
+    max-width: 57em;
+    height: max-content;
+    width: auto;
+    overflow: hidden;
     font-size: 1.5rem;
     text-align: center;
     background-color: inherit;
@@ -267,8 +278,4 @@ button:disabled, button[disabled] {
     width: 7em;
     font-size: 2em;
     border-radius: 0.7em;
-    margin-top: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
 }

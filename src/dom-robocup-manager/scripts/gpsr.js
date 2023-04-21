@@ -6,21 +6,17 @@ var sentence_gpsr = new ROSLIB.Topic({
     name: '/robobreizh/sentence_gpsr',
     messageType: 'std_msgs/String'
 });
-var previous_sentence_gpsr = "";
 sentence_gpsr.subscribe(function (message) {
-    if (previous_sentence_gpsr != String(message.data)) {
-        previous_sentence_gpsr = String(message.data);
-        create_popup(String(message.data));
-    }
+    create_popup(String(message.data));
 });
-var last_popup_time = 0;
-var popup_cooldown = 5 * 1000;
 function create_popup(gpsr_string) {
-    // var now = Date.now();
-    // if (now - last_popup_time < popup_cooldown) {
-    //     return;
-    // }
-    // last_popup_time = now;
+    if ((gpsr_string == "") || (gpsr_string == undefined)) {
+        return;
+    }
+    var previous_popup = document.getElementsByClassName('popup');
+    while (previous_popup.length > 0) {
+        document.body.removeChild(previous_popup[0]);
+    }
     var popup = document.createElement('div');
     popup.classList.add('popup');
     var popup_text = document.createElement('div');
@@ -28,7 +24,6 @@ function create_popup(gpsr_string) {
     popup_text.innerHTML = gpsr_string;
     popup_text.onclick = edit_word(popup_text);
     popup.appendChild(popup_text);
-    document.body.appendChild(popup);
     var confirm_button = document.createElement('button');
     confirm_button.classList.add('btn');
     confirm_button.classList.add('btn-primary');
@@ -40,6 +35,7 @@ function create_popup(gpsr_string) {
         return;
     };
     popup.appendChild(confirm_button);
+    document.body.appendChild(popup);
 }
 function edit_word(token) {
     return function () {
