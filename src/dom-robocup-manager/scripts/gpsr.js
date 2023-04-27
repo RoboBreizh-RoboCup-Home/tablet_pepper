@@ -32,7 +32,7 @@ function create_popup(gpsr_string) {
     confirm_button.onclick = function () {
         var sentence = get_sentence();
         document.body.removeChild(popup);
-        return;
+        return sentence;
     };
     popup.appendChild(confirm_button);
     document.body.appendChild(popup);

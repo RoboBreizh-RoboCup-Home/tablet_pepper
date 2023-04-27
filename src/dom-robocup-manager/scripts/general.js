@@ -121,7 +121,7 @@ function camel_case_to_sentence_case(text) {
     if (sentence.indexOf("g p s r") != -1) {
         sentence = sentence.replace("g p s r", "GPSR");
     }
-    else if (sentence.indexOf("e g p s r") != -1) {
+    if (sentence.indexOf("e g p s r") != -1) {
         sentence = sentence.replace("e g p s r", "EGPSR");
     }
     sentence = sentence.replace(" i ", " I ");
