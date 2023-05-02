@@ -1,0 +1,7 @@
+        "ManipulationLook_Up.exec"
+        "DialogSay_YouAreWearingShoes.exec"
+        "ManipulationPointAt.exec"
+        "DialogSay_CouldYouPleaseRemoveYourShoesOutsideAndReturnToYourPosition.exec"
+        "OtherChangePlan_StricklerShoesSecondAttempt.exec"
+        "OtherWait_10.exec"
+        "DialogSay_NoShoesAreAllowedInsideTheHouse.exec"

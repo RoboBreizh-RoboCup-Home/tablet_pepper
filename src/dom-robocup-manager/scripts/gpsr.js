@@ -28,7 +28,7 @@ function create_popup(gpsr_string) {
     confirm_button.classList.add('btn');
     confirm_button.classList.add('btn-primary');
     confirm_button.classList.add('popup-confirm');
-    confirm_button.innerHTML = "Looks good!";
+    confirm_button.innerHTML = "Confirm";
     confirm_button.onclick = function () {
         var sentence = get_sentence();
         document.body.removeChild(popup);
