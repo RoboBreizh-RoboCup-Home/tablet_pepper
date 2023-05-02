@@ -1,2 +1,0 @@
-        "initGPSR.exec"
-        "OtherChangePlan_SubPlanSpeech.exec"

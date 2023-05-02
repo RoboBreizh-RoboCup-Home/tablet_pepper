@@ -1,4 +1,0 @@
-        "initStickler.exec"
-        "NavigationMoveTowardsLocation_centerPoint.exec"
-        "DialogSay_IWillSeeIfThereIsAnySticklerInTheHouse.exec"
-        "OtherChangePlan_SticklerLobby.exec"

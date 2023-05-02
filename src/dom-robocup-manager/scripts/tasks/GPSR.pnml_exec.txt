@@ -1,3 +1,0 @@
-        "initGPSR.exec"
-        "VisionWaitForDoorOpening.exec"
-        "OtherChangePlan_GPSRTakeOrder.exec"

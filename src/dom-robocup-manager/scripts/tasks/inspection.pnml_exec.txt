@@ -1,7 +1,0 @@
-        "VisionWaitForDoorOpening.exec"
-        "NavigationMoveTowardsLocation_posA.exec"
-        "DialogSay_HelloImHereForTheInspection.exec"
-        "DialogSay_SpeakToMeIfYouWantMeToMoveTowardsTheNextSpot.exec"
-        "DialogListenConfirmation.exec"
-        "NavigationMoveTowardsLocation_posB.exec"
-        "NavigationMoveTowardsLocation_posC.exec"

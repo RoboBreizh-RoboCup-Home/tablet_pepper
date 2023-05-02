@@ -1,2 +1,0 @@
-        "DialogAskHumanToFollow_GPSR.exec"
-        "OtherChangePlan_GPSRSubMoveTowards.exec"

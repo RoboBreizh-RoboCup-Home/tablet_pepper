@@ -1,7 +1,0 @@
-        "VisionFindStickler.exec"
-        "ManipulationLook_DownStickler.exec"
-        "NavigationRotate_minus40.exec"
-        "OtherChangePlan_SticklerShoesFirstAttempt.exec"
-        "OtherChangePlan_SticklerNoDrinkFirstAttempt.exec"
-        "OtherChangePlan_SticklerLitterFirstAttempt.exec"
-        "OtherChangePlan_SticklerForbiddenRoomFirstAttempt.exec"

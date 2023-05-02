@@ -1,3 +1,0 @@
-        "initReceptionist.exec"
-        "DialogAskHuman_Orders.exec"
-        "DialogListenOrders.exec"

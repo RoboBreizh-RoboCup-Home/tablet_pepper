@@ -1,7 +1,0 @@
-        "ManipulationLook_Up.exec"
-        "DialogSay_YouAreBreakingTheCompulsoryHydrationRule.exec"
-        "ManipulationPointAt.exec"
-        "DialogSay_CouldYouPleaseFindADrinkAndReturnToYourPosition.exec"
-        "OtherChangePlan_StricklerNoDrinkSecondAttempt.exec"
-        "OtherWait_5.exec"
-        "DialogSay_YouHaveNoDrinkInYourHand.exec"
