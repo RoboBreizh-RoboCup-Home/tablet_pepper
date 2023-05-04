@@ -34,8 +34,10 @@ npx webpack
 
 In order to put the files on the robot you would need to copy the index.html along with the necessary import to /home/nao/.local/share/PackageManager/apps/tablet/html
 
-Also, don't forget to change the ip address of the ros websocket.
-While running on the robot, the websocket should be 198.18.0.1:9090 and on your computer it should be ROBOT_IP:9090
+It the webpage can be ran manually with the following command:
+```
+qicli call ALTabletService.showWebview "http://198.18.0.1/apps/tablet/index.html"
+```
 
 The file start_tablet_on_boot.py should be started on boot of the robot and launch the webpage on the tablet
 ## In the future
