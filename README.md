@@ -36,6 +36,8 @@ In order to put the files on the robot you would need to copy the index.html alo
 
 It the webpage can be ran manually with the following command:
 ```
+ssh nao@192.168.50.44
+exit
 qicli call ALTabletService.showWebview "http://198.18.0.1/apps/tablet/index.html"
 ```
 
