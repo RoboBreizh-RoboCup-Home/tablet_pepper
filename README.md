@@ -33,7 +33,9 @@ npx webpack
 ```
 
 In order to put the files on the robot you would need to copy the index.html along with the necessary import to /home/nao/.local/share/PackageManager/apps/tablet/html with the following command:
+```
 scp -r /dom-robocup-manager/* nao@192.168.50.44:~/.local/share/PackageManager/apps/tablet/html
+```
 
 It the webpage can be ran manually with the following command:
 ```
