@@ -203,7 +203,7 @@ svg {
 .convo-container, .current-task-container{
     animation-name: none;
     height: 15.45rem;
-    padding-left: 22px;
+    padding-left: 25px;
 }
 
 .line {

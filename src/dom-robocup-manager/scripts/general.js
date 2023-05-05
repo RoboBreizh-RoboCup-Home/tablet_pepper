@@ -270,7 +270,7 @@ current_task_listener.subscribe(function (message) {
             if (replacement_text[title][String(message.data)] == "") {
                 return;
             }
-            last_task = replacement_text[title][message.data];
+            last_task = replacement_text[title][String(message.data)];
             update_task(last_task);
         }
     }

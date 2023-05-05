@@ -38,7 +38,7 @@ robot_text.subscribe(function (message) {
     update_text(camel_case_to_sentence_case(String(message.data)), "robot_text");
 });
 
-var replacement_text = {
+var replacement_text: object = {
     "CarryMyLuggage": {
         "initCarryMyLuggage.exec": "Initializing carry my luggage",
         "NavigationMoveTowardsLocation_instructionPoint.exec": "Moving to instruction point",
@@ -280,7 +280,7 @@ current_task_listener.subscribe(function (message) {
             if (replacement_text[title][String(message.data)] == "") {
                 return;
             }
-            last_task = replacement_text[title][message.data];
+            last_task = replacement_text[title][String(message.data)];
             update_task(last_task);
         }
     };
