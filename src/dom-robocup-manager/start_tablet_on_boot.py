@@ -3,45 +3,60 @@ import sys
 import qi
 
 
-class TabletNode(object):
+class StartupNode(object):
     """
     A simple class to react to face detection events.
     """
 
     def __init__(self, qisession):
         """
-        Initialisation of qi framework and event detection.
+        Initialization of qi framework and event detection.
         """
-        super(TabletNode, self).__init__()
+        super(StartupNode, self).__init__()
         qisession.start()
         session = qisession.session
         # Get the service ALMemory.
         self.memory = session.service("ALMemory")
-        self.tablet_service = session.service("ALTabletService")
         # Get ALTabletService service.
+        self.tablet_service = session.service("ALTabletService")
         self.connected = False
         # Connect the event callback.
-        self.subscriber = self.memory.subscriber("ALDiagnosis/RobotIsReady")
-        self.subscriber.signal.connect(self.on_robot_ready)
+        self.touch_subscriber = self.memory.subscriber("TouchChanged")
+        self.id = self.touch_subscriber.signal.connect(self.on_touch)
+        self.motion_service = session.service("ALMotion")
+        self.set_my_pepper_straight()
 
+    def on_touch(self, value):
+        """
+        Callback for event on body touched, show webpage if one of its arms was touched.
+        """
+        print(value)
+        if value[0][0] and value[0][0] in ["LArm", "RArm"]:
+            self.tablet_service.cleanWebview()
+            if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
+                self.connected = True
+                self.touch_subscriber.signal.disconnect(self.id)
 
-    def on_robot_ready(self, value):
+    def set_my_pepper_straight(self):
         """
-        Callback for event robot ready.
+        set the robot straight on startup
         """
-        self.tablet_service.cleanWebview() # Clean other web browsers   .
-        if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
-            self.connected = True
+        self.motion_service.setAngles("HeadPitch", 0.0, 0.1)
+        self.motion_service.setAngles("HeadYaw", 0.0, 0.1)
+        self.motion_service.setAngles("KneePitch", 0.0, 0.1)
+        self.motion_service.setAngles("HipRoll", 0.0, 0.1)
+        self.motion_service.setAngles("HipPitch", -0.1, 0.1)
+        self.motion_service.setBreathEnabled("Body", 0)
 
     def run(self):
         """
         Loop on, wait for events until manual interruption.
         """
         try:
-            while self.connected is not False:
+            while True:
                 time.sleep(1)
         except KeyboardInterrupt:
-            self.memory.unsubscribe("ALDiagnosis/RobotIsReady")
+            self.touch_subscriber.signal.disconnect(self.id)
             #stop
             sys.exit(0)
 
@@ -55,5 +70,5 @@ if __name__ == "__main__":
         print ("Can't connect to Naoqi")
         sys.exit(1)
 
-    show_page = TabletNode(app)
-    show_page.run()
+    startup = StartupNode(app)
+    startup.run()
