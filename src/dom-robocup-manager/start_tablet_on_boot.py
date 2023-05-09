@@ -1,45 +1,59 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import qi
-import sys
-import threading
 import time
+import sys
+import qi
 
 
 class TabletNode(object):
     """
-    Show in the tablet what the robot hears and says.
+    A simple class to react to face detection events.
     """
 
-    def __init__(self, session):    
+    def __init__(self, qisession):
+        """
+        Initialisation of qi framework and event detection.
+        """
         super(TabletNode, self).__init__()
+        qisession.start()
+        session = qisession.session
+        # Get the service ALMemory.
+        self.memory = session.service("ALMemory")
         self.tablet_service = session.service("ALTabletService")
+        # Get ALTabletService service.
         self.connected = False
+        # Connect the event callback.
+        self.subscriber = self.memory.subscriber("ALDiagnosis/RobotIsReady")
+        self.subscriber.signal.connect(self.on_robot_ready)
 
-    def load_webpage(self):
-        self.tablet_service.cleanWebview() # Clean the web browser.
-        while True:
-            # The ip of the robot from the tablet is 198.18.0.1
-            if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
-                break
-            else:
-                print("Couldn't load website on tablet.")
-                time.sleep(3)
-        print("Displaying website on the tablet")
 
-def main():
-    addr = "tcp://localhost:9559"
+    def on_robot_ready(self, value):
+        """
+        Callback for event robot ready.
+        """
+        self.tablet_service.cleanWebview() # Clean other web browsers   .
+        if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
+            self.connected = True
 
-    session = qi.Session()
-    try:
-        session.connect(addr)
-    except RuntimeError:
-        print("Can't connect to Naoqi")
-        sys.exit(1)
+    def run(self):
+        """
+        Loop on, wait for events until manual interruption.
+        """
+        try:
+            while self.connected is not False:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            self.memory.unsubscribe("ALDiagnosis/RobotIsReady")
+            #stop
+            sys.exit(0)
 
-    tablet_node = TabletNode(session)
-    tablet_node.load_webpage()
 
 if __name__ == "__main__":
-    main()
+    try:
+        # Initialize qi framework.
+        connection_url = "tcp://localhost:9559"
+        app = qi.Application(["TabletNode" "--qi-url=" + connection_url])
+    except RuntimeError:
+        print ("Can't connect to Naoqi")
+        sys.exit(1)
+
+    show_page = TabletNode(app)
+    show_page.run()
