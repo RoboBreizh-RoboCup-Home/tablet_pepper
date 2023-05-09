@@ -11,6 +11,7 @@ class StartupNode(object):
     def __init__(self, qisession):
         """
         Initialization of qi framework and event detection.
+        event list can be found here: http://doc.aldebaran.com/2-5/naoqi-eventindex.html
         """
         super(StartupNode, self).__init__()
         qisession.start()
