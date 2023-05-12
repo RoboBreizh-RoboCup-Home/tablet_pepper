@@ -52,9 +52,9 @@ ssh nao@192.168.50.44
 exit
 qicli call ALTabletService.showWebview "http://198.18.0.1/apps/tablet/index.html"
 ```
-Or
+Or this command in ~/
 ```
-python start_tablet_on_boot.py
+python start_tablet.py
 ```
 
 ## Autoload
