@@ -2,11 +2,12 @@
 
 from distutils.core import setup
 
-setup(name='vizbox',
-      version='0.1.0',
-      description='Visualisation server for RoboCup@Home',
-      author='Loy van Beek',
-      author_email='loy.vanbeek@gmail.com',
-      package_dir={'':'src'},
-      url='https://github.com/LoyVanBeek/vizbox',
-     )
+setup(
+    name='tablet_pepper',
+    version='0.1.0',
+    description='Visualisation server for RoboCup@Home',
+    author='Thomas UNG',
+    author_email='tomkimsour@gmail.com',
+    package_dir={'':'src'},
+    url='https://github.com/RoboBreizh-RoboCup-Home/tablet_pepper',
+)

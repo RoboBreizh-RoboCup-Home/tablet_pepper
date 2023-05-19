@@ -1,0 +1,281 @@
+@font-face {
+    font-family: Robocup-title;
+    src: url(./fonts/PPNeueMachina/PPNeueMachina-InktrapUltrabold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Robocup-content;
+    src: url(./fonts/PPNeueMachina/PPNeueMachina-InktrapRegular.ttf) format("truetype");
+}
+
+html, body, .content-container{
+    height: 95%;
+    background-color: rgb(254, 252, 232);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Robocup-content;
+    background-color: rgb(254, 252, 232);
+}
+
+.centre{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    background-color: inherit;
+}
+
+svg {
+    background-color: inherit;
+}
+
+.font-bold {
+    font-family: Robocup-title;
+}
+
+.header{
+    border-bottom: 0.3em solid black;
+    height: max-content;
+}
+
+.header-yellow {
+    background-color: rgb(255, 255, 0);
+}
+
+.header-violet {
+    background-color: rgb(240, 171, 252);
+}
+
+.header-blue {
+    background-color: rgb(165, 180, 252);
+}
+
+.header-left {
+    border-right: 0.3em solid black;
+}
+
+.animed_image {
+    height: 559px;
+    /* width: auto;
+    object-fit: contain;
+    border: 1px solid black;
+    padding: 0; */
+    position: absolute; /* positions the img element absolutely within the container */
+    top: 0; /* aligns the top of the img element with the top of the container */
+    left: 0; /* aligns the left of the img element with the left of the container */
+    width: 100%; /* sets the width of the img element to 100% of the container */
+    /* height: 100%; sets the height of the img element to 100% of the container */
+    object-fit: cover; /* scales the image to cover the entire container while maintaining the aspect ratio */
+}
+
+.instruction_buttons {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container div {
+    align-self: center;
+}
+
+.image-column {
+    padding: 0;
+}
+
+.prompt-column
+{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 559px;
+}
+
+.button-container {
+    margin-top: auto;
+    align-self: center;
+}
+
+.btn {
+    border-radius: 0.7em;
+    border: 0.1em solid black;
+    padding: 0;
+}
+
+.button-row {
+    width: 50%;
+    margin: 1em;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    padding: 0;
+}
+
+.btn-lg {
+    font-size: 2em;
+    line-height: 2em;
+}
+
+.button-red {
+    background-color: rgb(220, 38, 38);
+}
+.button-green {
+    background-color: rgb(148, 255, 185);
+}
+.button-blue {
+    background-color: rgb(103, 232, 249);
+}
+.button-yellow {
+    background-color: rgb(250, 204, 21);
+}
+.button-violet {
+    background-color: rgb(168, 85, 247);
+}
+
+.button-left {
+    margin-right: 30%;
+}
+
+.button-right {
+    margin-left: 30%;
+}
+
+.column-title {
+    margin: 0;
+    font-weight: 1000;
+    font-size: 1.75rem;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.switch-buttons {
+    width: 3em;
+    height: 2em;
+}
+
+.content-row {
+    height: 100%;
+}
+
+#task-items li {
+    font-size: 1.25em;
+}
+
+.operator_text {
+    line-height: 1.25em;
+    margin: 0;
+    list-style-image: url("data:image/svg+xml,%3Csvg id='emoji' viewBox='-15 -21 78 78' xmlns='http://www.w3.org/2000/svg' width='27px' height='27px' %3E%3Cg id='color'%3E%3Cpath fill='%2392D3F5' d='M17,61v-4c0-4.9941,5.0078-9,10-9c6,5,12,5,18,0c4.9941,0,10,4.0059,10,9v4'/%3E%3C/g%3E%3Cg id='hair'%3E%3Cpath fill='%23F1B31C' d='M26,39c-4,0-4-6-4-13s4-14,14-14s14,7,14,14s0,13-4,13'/%3E%3C/g%3E%3Cg id='skin'%3E%3Cpath fill='%23FCEA2B' d='M24.9365,31c0,9,4.9365,14,11,14C41.873,45,47,40,47,31c0-3-1-5.0005-1-5.0005c-3-2.9995-7-8-7-8 c-4,3-7,6-13,7.0005C26,25,24.9365,25.9995,24.9365,31z'/%3E%3C/g%3E%3Cg id='skin-shadow'/%3E%3Cg id='line'%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M26,39c-4,0-4-6-4-13 s4-14,14-14s14,7,14,14s0,13-4,13'/%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17,60v-3 c0-4.9941,5.0078-9,10-9c6,5,12,5,18,0c4.9941,0,10,4.0059,10,9v3'/%3E%3Cpath d='M41.873,30c0,1.1045-0.8955,2-2,2c-1.1044,0-2-0.8955-2-2s0.8956-2,2-2C40.9775,28,41.873,28.8955,41.873,30'/%3E%3Cpath d='M33.873,30c0,1.1045-0.8955,2-2,2c-1.1044,0-2-0.8955-2-2s0.8956-2,2-2C32.9775,28,33.873,28.8955,33.873,30'/%3E%3Cpath fill='none' stroke='%23000000' stroke-linejoin='round' stroke-width='2' d='M24.9365,31c0,9,4.9365,14,11,14 C41.873,45,47,40,47,31c0-3-1-5.0005-1-5.0005c-3-2.9995-7-8-7-8c-4,3-7,6-13,7.0005C26,25,24.9365,25.9995,24.9365,31z'/%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M33,38 c1.9385,0.9385,4,1,6,0'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.robot_text {
+    line-height: 1.25em;
+    margin: 0;
+    list-style-image: url("data:image/svg+xml,%3Csvg id='emoji' viewBox='-15 -21 78 78' xmlns='http://www.w3.org/2000/svg' width='27px' height='27px' %3E%3Cg id='color'%3E%3Cpath fill='%23D22F27' d='M34,16.1123v-2.5109c0-1.3807,1.1193-2.5,2.5-2.5l0,0c1.3807,0,2.5,1.1193,2.5,2.5v2.5'/%3E%3Cpath fill='%23D0CFCE' d='M13.5,41.1014L13.5,41.1014c-1.3807,0-2.5-1.1193-2.5-2.5v-8c0-1.3807,1.1193-2.5,2.5-2.5l0,0 c1.3807,0,2.5,1.1193,2.5,2.5v8C16,39.9821,14.8807,41.1014,13.5,41.1014z'/%3E%3Cpath fill='%23D0CFCE' d='M58.5,41.1014L58.5,41.1014c1.3807,0,2.5-1.1193,2.5-2.5v-8c0-1.3807-1.1193-2.5-2.5-2.5l0,0 c-1.3807,0-2.5,1.1193-2.5,2.5v8C56,39.9821,57.1193,41.1014,58.5,41.1014z'/%3E%3Cpath fill='%23D0CFCE' d='M47.4505,56.1123h-22.901c-4.7022,0-8.5495-3.8473-8.5495-8.5495v-22.901 c0-4.7022,3.8473-8.5495,8.5495-8.5495h22.901c4.7022,0,8.5495,3.8473,8.5495,8.5495v22.901 C56,52.2649,52.1527,56.1123,47.4505,56.1123z'/%3E%3Cpath fill='%239B9B9A' d='M35.4977,56.1115h13.2865c3.9687,0,7.2158-3.8473,7.2158-8.5495V24.661 c0-4.7022-3.2471-8.5495-7.2158-8.5495h-2.3526'/%3E%3Cellipse cx='44.8346' cy='29.0027' rx='2.8338' ry='2.8338' fill='%23FFFFFF'/%3E%3Cellipse cx='27.3342' cy='29.0022' rx='2.8338' ry='2.8338' fill='%23FFFFFF'/%3E%3Cpath fill='%23FFFFFF' d='M44.5,47.5005h-17c-2.2,0-4-1.8-4-4l0,0c0-2.2,1.8-4,4-4h17c2.2,0,4,1.8,4,4l0,0 C48.5,45.7005,46.7,47.5005,44.5,47.5005z'/%3E%3C/g%3E%3Cg id='hair'/%3E%3Cg id='skin'/%3E%3Cg id='skin-shadow'/%3E%3Cg id='line'%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2' d='M34,16.0109V13.5c0-1.3807,1.1193-2.5,2.5-2.5l0,0c1.3807,0,2.5,1.1193,2.5,2.5V16'/%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2' d='M47.4505,56h-22.901C19.8473,56,16,52.1527,16,47.4505v-22.901C16,19.8473,19.8473,16,24.5495,16h22.901 C52.1527,16,56,19.8473,56,24.5495v22.901C56,52.1527,52.1527,56,47.4505,56z'/%3E%3Cellipse cx='44.8346' cy='29.0022' rx='2.8338' ry='2.8338' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2'/%3E%3Cellipse cx='27.3342' cy='29.0017' rx='2.8338' ry='2.8338' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2'/%3E%3Cpath fill='none' stroke='%23000000' stroke-miterlimit='2' stroke-width='2' d='M44.5,47.5h-17c-2.2,0-4-1.8-4-4l0,0 c0-2.2,1.8-4,4-4h17c2.2,0,4,1.8,4,4l0,0C48.5,45.7,46.7,47.5,44.5,47.5z'/%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2' d='M13.5,41L13.5,41c-1.3807,0-2.5-1.1193-2.5-2.5v-8c0-1.3807,1.1193-2.5,2.5-2.5l0,0c1.3807,0,2.5,1.1193,2.5,2.5v8 C16,39.8807,14.8807,41,13.5,41z'/%3E%3Cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2' d='M58.5,41L58.5,41c1.3807,0,2.5-1.1193,2.5-2.5v-8c0-1.3807-1.1193-2.5-2.5-2.5l0,0c-1.3807,0-2.5,1.1193-2.5,2.5v8 C56,39.8807,57.1193,41,58.5,41z'/%3E%3Cline x1='28' x2='28' y1='40' y2='47' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2'/%3E%3Cline x1='33' x2='33' y1='40' y2='47' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2'/%3E%3Cline x1='38' x2='38' y1='40' y2='47' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2'/%3E%3Cline x1='43' x2='43' y1='40' y2='47' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='2' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.to-be-cleared {
+    display: block;
+}
+
+#convo, #task-items {
+    max-height: 100%;
+    height: 100%;
+    font-size: 1rem;
+}
+
+.convo-container, .current-task-container{
+    animation-name: none;
+    height: 15.45rem;
+    padding-left: 25px;
+}
+
+.line {
+    height: 2px;
+    width: 100%;
+    background-color: black
+}
+
+@keyframes transition {
+    0% {
+        opacity: 0;
+
+    }
+    100% {
+        opacity: 1;
+    }
+}
+  
+/* Apply the animation to the page1 element */
+*{
+    animation-name: transition;
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+}
+
+button:disabled, button[disabled] {
+    background-color: rgb(192, 192, 192) !important;
+    color: rgb(134, 134, 134) !important;
+    border-color: black !important;
+}
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    padding: 1em;
+    position: absolute;
+    width: 75%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: max-content;
+    z-index: 9999;
+    border: black solid 2px;
+    border-radius: 1em;
+    background-color: rgb(255, 249, 183);
+}
+
+.popup-prompt {
+    font-size: medium;
+    text-align: center;
+    background-color: inherit;
+}
+
+.popup-text {
+    min-height: 6em;
+    max-height: 10em;
+    line-height: 2em;
+    max-width: 57em;
+    height: max-content;
+    width: auto;
+    overflow: hidden;
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: inherit;
+}
+
+.popup-confirm {
+    height: 2em;
+    width: 7em;
+    font-size: 2em;
+    border-radius: 0.7em;
+}

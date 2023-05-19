@@ -1,78 +1,62 @@
-RoboCup@Home VizBox
+Pepper Tablet Interface
 ===================
 
-The RoboCup@Home VizBox is a little webserver @Home robots can run to vizualize what is going on.
+This webpage is supposed to be use in order for the user to trigger different task and have feedback on different topic.
+As there is no server running. The webpage is a single webpage processing everything using js to interact with DOM and 
+the lib roslib.js from RobotWebTools to communicate with ROS topics.
 
-The main page shows
-- an outline of the current challenge and where the robot is in the story of that challenge.
-- Subtitles of what the robot and operator just said; their conversation
-- Images of what the robot sees or a visualisation of the robot's world model, eg. camera images, it's map, anything to make clear what is going on to the audience.
+The main page shows a series of button for triggering different task
 
-Additionally, the server accepts HTTP POSTs to which a command sentence can be submitted on /command
+## Development
 
-![Screenshot](https://github.com/RoboCupAtHome/vizbox/blob/master/screenshot.png)
+The only file run on the tablet is the index.html along with the imported files inside it.
+For better development we use typescript as for creating the app.
 
-Backends
---------
-
-The server abstracts over the underlying robot via a Backend. A backend accepts messages from the robot's internals. A message is forwarded to the web page via websockets.
-
-Currently, only a ROS backend is implemented:
-
-### Subscriptions:
-
-* ```operator_text std_msgs/String``` What the robot has heard the operator say
-* ```robot_text std_msgs/String``` What the robot itself is saying
-* ```challenge_step std_msgs/UInt32``` Active item index in the plan or action sequence the robot is executing.
-* ```image sensor_msgs/Image``` Image of what the robo sees or anything else interesting to the audience
-
-### Publications
-* ```command std_msgs/String``` Command HTTP POSTed to the robot.
-
-TODO
-----
-
-* Allow robot to push action sequence and challenge name to server. Allows for GPSR action sequences etc.
-
-Installation and try out
--------
-```bash
-git clone https://github.com/RoboCupAtHome/vizbox.git
-cd vizbox
-sudo pip install -r requirements.txt
-
-roscore # in separate terminal
-./server.py image:=/usb_cam/image_raw # Remaps the image-topic to output of the USB cam, see below
+- First you need to install the modules using npm (make sure it is installed on your machine) 
+go to the src folder and run 
+```
+npm install
 ```
 
-Open [The web page on localhost](http://localhost:8888)
+Now you can compile your ts file using 
+```
+tsc app.ts
+```
+A JavaScript file wiht the same name will be generated (app.ts will generate app.js)  
 
-To reproduce the the screenshot:
-```bash
-roslaunch usb_cam usb_cam-test.launch # separate terminal
-rostopic pub /challenge_step std_msgs/UInt32 "data: 0" --once
-rostopic pub /robot_text std_msgs/String "data: 'Hello operator'" --once
-rostopic pub /operator_text std_msgs/String "data: 'Robot, follow me'" --once
-rostopic pub /robot_text std_msgs/String "data: 'OK, I will follow you'" --once;
-rostopic pub /challenge_step std_msgs/UInt32 "data: 1" --once
+Typescript compiler is used in order to convert typescript to a certain version of javascript. You can see details in the tsconfig.json.
+While the application is growing larger you might end up with multiple .js files and .css file to import along with assets and need to optimize the app.
+In order to do that you will need to use webpack. Feel free to look at this [link](https://www.youtube.com/watch?v=5IG4UmULyoA) to have a small understanding of how 
+webpack works.
+
+Run the following command to compile app.ts using webpack with the following command :
+```
+npx webpack
 ```
 
-POST commands
-=============
-Use
-```bash
-http -f POST localhost:8888/command command="Robot, follow me"
+The webpage were written in plain HTML, CSS, and JavaScript, to meet the limited javascript availability, namely JavaScript 1.7 and Mozilla 5.0.
+
+In order to put the files on the robot you would need to copy the index.html along with the necessary import to /home/nao/.local/share/PackageManager/apps/tablet/html with the following command:
 ```
-(Using the very handy [HTTPie](https://httpie.org/) utility) to get a publication on the ```/command``` topic
-
-Buttons
-=============
-
-Buttons are pushing messages in `next_step` topic.
-
-To see pushed messages use :
-```bash
-rostopic echo next_step # separate terminal
+scp -r <FILENAME> nao@192.168.50.44:~/.local/share/PackageManager/apps/tablet/html
 ```
 
-To change messages, modify the values of `CMD_BTN1` and  `CMD_BTN2` at the beginning of `server.py`
+## Execution
+
+The webpage should show automatically when the arms were touched for thefirst time with the "start_tablet_on_boot.py" script, 
+and it will also trigger set my pepper straight
+
+Alternatively the webpage can be ran manually with the following command:
+```
+ssh nao@192.168.50.44
+exit
+qicli call ALTabletService.showWebview "http://198.18.0.1/apps/tablet/index.html"
+```
+Or this command in ~/
+```
+python start_tablet.py
+```
+
+## Autoload
+
+The "start_tablet_on_boot.py" script is linked to ~/naoqi/preferences/autoload.ini to run on boot, note that on load scripts are will be ran with python 2.7, more documentations are available here, under Loading a module at startup: http://doc.aldebaran.com/2-5/dev/tools/naoqi.html.
