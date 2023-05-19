@@ -2,7 +2,6 @@ import time
 import sys
 import qi
 
-
 class StartupNode(object):
     """
     A simple class to react to face detection events.
@@ -16,34 +15,22 @@ class StartupNode(object):
         super(StartupNode, self).__init__()
         qisession.start()
         session = qisession.session
-        # Get the service ALMemory.
-        self.memory = session.service("ALMemory")
         # Get ALTabletService service.
-        self.tablet_service = session.service("ALTabletService")
-        self.connected = False
-        self.ready = False
-        # Connect the event callback.
-        self.touch_subscriber = self.memory.subscriber("TouchChanged")
-        self.ready_subscriber = self.memory.subscriber("ALDiagnosis/ActiveDiagnosisFinished")
-        self.on_touch_id = self.touch_subscriber.signal.connect(self.on_touch)
-        self.ready_subscriber.signal.connect(self.on_ready)
         self.motion_service = session.service("ALMotion")
+        self.tablet_service = session.service("ALTabletService")
+        # Connect the event callback.
         self.set_my_pepper_straight()
+        self.start_time = qi.clockNow()
 
-    def on_ready(self):
-        """Callback to raise flag when robot is ready"""
-        self.ready = True
-
-    def on_touch(self, value):
+    def try_starting(self):
         """
-        Callback for event on body touched, show webpage if the robot is ready and one of its arms was touched.
+        Check time since booted every second, show webpage if 2 minutes has elapsed.
         """
-        print(value)
-        if value[0][0] and (value[0][0] in ["LArm", "RArm"]) and self.ready:
+        current_time = qi.clockNow()
+        if (current_time - self.start_time >= 120000000000): # 120 seconds
             self.tablet_service.cleanWebview()
             if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
-                self.connected = True
-                self.touch_subscriber.signal.disconnect(self.on_touch_id)
+                sys.exit(0)
 
     def set_my_pepper_straight(self):
         """
@@ -62,7 +49,8 @@ class StartupNode(object):
         """
         try:
             while True:
-                time.sleep(1)
+                time.sleep(5)
+                self.try_starting()
         except KeyboardInterrupt:
             self.touch_subscriber.signal.disconnect(self.on_touch_id)
             #stop
@@ -80,3 +68,4 @@ if __name__ == "__main__":
 
     startup = StartupNode(app)
     startup.run()
+
