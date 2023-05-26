@@ -24,15 +24,9 @@ class StartupNode(object):
         self.ready = False
         # Connect the event callback.
         self.touch_subscriber = self.memory.subscriber("TouchChanged")
-        self.ready_subscriber = self.memory.subscriber("ALDiagnosis/ActiveDiagnosisFinished")
         self.on_touch_id = self.touch_subscriber.signal.connect(self.on_touch)
-        self.ready_subscriber.signal.connect(self.on_ready)
         self.motion_service = session.service("ALMotion")
         self.set_my_pepper_straight()
-
-    def on_ready(self):
-        """Callback to raise flag when robot is ready"""
-        self.ready = True
 
     def on_touch(self, value):
         """
