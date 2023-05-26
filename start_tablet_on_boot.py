@@ -20,8 +20,6 @@ class StartupNode(object):
         self.memory = session.service("ALMemory")
         # Get ALTabletService service.
         self.tablet_service = session.service("ALTabletService")
-        self.connected = False
-        self.ready = False
         # Connect the event callback.
         self.touch_subscriber = self.memory.subscriber("TouchChanged")
         self.on_touch_id = self.touch_subscriber.signal.connect(self.on_touch)
@@ -33,12 +31,12 @@ class StartupNode(object):
         Callback for event on body touched, show webpage if the robot is ready and one of its arms was touched.
         """
         print(value)
-        if value[0][0] and (value[0][0] in ["LArm", "RArm"]) and self.ready:
+        if value[0][0] and (value[0][0] in ["LArm", "RArm"]):
             print("Arm touched")
             self.tablet_service.cleanWebview()
             if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
-                self.connected = True
                 self.touch_subscriber.signal.disconnect(self.on_touch_id)
+                sys.exit(0)
 
     def set_my_pepper_straight(self):
         """
