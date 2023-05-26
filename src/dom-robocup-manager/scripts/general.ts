@@ -26,10 +26,21 @@ var current_task_listener = new ROSLIB.Topic({
     name: '/pnp/currentActivePlaces',
     messageType: 'std_msgs/String'
 });
+var last_item_image = "";
+var alternative_image = "";
 if (item_frame_camera) {
     item_frame_camera.subscribe(function (message) {
-        update_image(message.data);
+        last_item_image = message.data;
     });
+    detection_camera.subscribe(function (message) {
+        alternative_image = message.data;
+    });
+    if (last_item_image != "") {
+        update_image(last_item_image);
+    }
+    else {
+        update_image(alternative_image);
+    }
 }
 else {
     detection_camera.subscribe(function (message) {
