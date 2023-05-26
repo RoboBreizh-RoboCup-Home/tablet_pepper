@@ -6,6 +6,11 @@ var detection_camera = new ROSLIB.Topic({
     name: '/naoqi_driver/camera/front/image_raw/compressed',
     messageType: 'sensor_msgs/CompressedImage'
 });
+var item_frame_camera = new ROSLIB.Topic({
+    ros: ros,
+    name: '/roboBreizh_detector/object_detection_compressed_image',
+    messageType: 'sensor_msgs/CompressedImage'
+});
 var operator_text = new ROSLIB.Topic({
     ros: ros,
     name: '/operator_text',
@@ -21,9 +26,16 @@ var current_task_listener = new ROSLIB.Topic({
     name: '/pnp/currentActivePlaces',
     messageType: 'std_msgs/String'
 });
-detection_camera.subscribe(function (message) {
-    update_image(message.data);
-});
+if (item_frame_camera) {
+    item_frame_camera.subscribe(function (message) {
+        update_image(message.data);
+    });
+}
+else {
+    detection_camera.subscribe(function (message) {
+        update_image(message.data);
+    });
+}
 operator_text.subscribe(function (message) {
     update_text(camel_case_to_sentence_case(String(message.data)), "operator_text");
 });
