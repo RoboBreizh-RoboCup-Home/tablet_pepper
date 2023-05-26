@@ -40,6 +40,7 @@ class StartupNode(object):
         """
         print(value)
         if value[0][0] and (value[0][0] in ["LArm", "RArm"]) and self.ready:
+            print("Arm touched")
             self.tablet_service.cleanWebview()
             if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
                 self.connected = True
