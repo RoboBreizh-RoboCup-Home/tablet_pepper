@@ -33,7 +33,6 @@ class StartupNode(object):
     def on_ready(self):
         """Callback to raise flag when robot is ready"""
         self.ready = True
-
     def on_touch(self, value):
         """
         Callback for event on body touched, show webpage if the robot is ready and one of its arms was touched.
