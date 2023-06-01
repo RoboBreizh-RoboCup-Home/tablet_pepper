@@ -367,6 +367,13 @@ function stop_button_click() {
     });
     stop_button_publisher.publish(stop_button_message);
 }
+function prev_button_click() {
+
+}
+
+function next_button_click() {
+
+}
 function emphasize_new_update(id) {
     var element = document.getElementById(id);
     for (var i = 0; i < element.children.length; i++) {
