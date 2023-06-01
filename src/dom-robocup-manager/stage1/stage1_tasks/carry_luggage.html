@@ -17,11 +17,12 @@
 </head>
 <body>
     <div class="row text-center header">
+        <!-- header row with two elements side by side-->
         <div class="col-sm-3 header-left header-yellow font-bold">
             <h1 onclick="unsubscribe(); stop_button_click();location.href='../../index.html';" class="transition">Home</h1>
         </div>
         <div class="col-sm-9 header-violet font-bold">
-            <h1>Carry My Luggage</h1>
+            <h1>Receptionist</h1>
         </div>
     </div>
     <div id="content-container">
@@ -32,16 +33,22 @@
             <div class="col-sm-4 prompt-column">
                 <div class="current-task-container on-connect" style="display: none;">
                     <h3 class="column-title">Current Tasks</h3>
-                    <ul id="task-items"></ul>
+                    <ul id="task-items"></ul>       
                 </div>
                 <div class="line on-connect" style="display: none;"></div>
                 <div class="convo-container on-connect" style="display: none">
-                    <h3 class="column-title">Conversations</h3>
+                    <div class="row smol-button-row">
+                            <button id="prev-button" class="btn btn-secondary switch-buttons"onclick="prev_button_click()">❮ </button>
+                            <h3 class="column-title">Logs</h3>
+                            <button id="next-button" class="btn btn-secondary switch-buttons"onclick="next_button_click()">❯</button>
+                    </div>
                     <ul id="convo"></ul>
                 </div>
-                <div class="button-container on-connect" style="display: none;">
-                    <button id="start-button" class="btn btn-primary btn-lg switch-buttons"onclick="start_button_click()">Start</button>
-                    <button id="stop-button" class="btn btn-danger btn-lg switch-buttons"onclick="stop_button_click()">Stop</button>
+                <div class="row smol-button-row">
+                    <div class="button-container on-connect" style="display: none;">
+                        <button id="start-button" class="btn btn-primary btn-lg switch-buttons"onclick="start_button_click()">Start</button>
+                        <button id="stop-button" class="btn btn-danger btn-lg switch-buttons"onclick="stop_button_click()">Stop</button>
+                    </div>
                 </div>
             </div>
         </div>
