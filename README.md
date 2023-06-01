@@ -41,9 +41,32 @@ In order to put the files on the robot you would need to copy the index.html alo
 scp -r <FILENAME> nao@192.168.50.44:~/.local/share/PackageManager/apps/tablet/html
 ```
 
+## Installation
+
+First, make sure you have the latest version of the tablet web app
+Under robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager
+```
+git checkout main
+git pull
+```
+
+Then, copy the files from the workspace to the folder we are going to place the web app
+
+```
+cp -r ~/robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager/* ~/.local/share/PackageManager/apps/tablet/html
+```
+
+And now, the files should be in the correct folder for running.
+
+In order to set up the auto load on start, add this line to ~/naoqi/preferences/autoload.ini, under [python]
+
+```
+/home/nao/robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager/start_tablet_on_boot.py
+```
+
 ## Execution
 
-The webpage should show automatically when the arms were touched for thefirst time with the "start_tablet_on_boot.py" script, 
+The webpage should show automatically 2 minutes after the robot booted with the "start_tablet_on_boot.py" script, 
 and it will also trigger set my pepper straight
 
 Alternatively the webpage can be ran manually with the following command:
