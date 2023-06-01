@@ -107,15 +107,23 @@ svg {
     height: 559px;
 }
 
-.button-container {
-    margin-top: auto;
-    align-self: center;
+#prev-button, #next-button {
+    font-size: 22px;
 }
 
-.btn {
-    border-radius: 0.7em;
-    border: 0.1em solid black;
+.smol-button-row {
+    width: 100%;
+    margin: 1em;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
     padding: 0;
+    align-self: center;
+    margin: 0;
+}
+
+#prev-button, #next-button {
+    font-size: 22px;
 }
 
 .button-row {
@@ -124,6 +132,21 @@ svg {
     justify-content: space-around;
     align-items: center;
     display: flex;
+    padding: 0;
+}
+
+.button-container {
+    margin-top: auto;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    border-radius: 0.7em;
+    border: 0.1em solid black;
     padding: 0;
 }
 
@@ -156,13 +179,31 @@ svg {
     margin-left: 30%;
 }
 
+.smol-button-row .button-container {
+    display: flex;
+}
+
+.row {
+    flex-direction: inherit;
+}
+
+.row .smol-button-row {
+    display: flex;
+    flex-direction: initial;
+}
+
 .column-title {
     margin: 0;
     font-weight: 1000;
     font-size: 1.75rem;
+    width: fit-content;
     text-align: center;
     font-weight: bold;
     text-decoration: underline;
+}
+
+.current-task-container {
+    align-self: center;
 }
 
 .switch-buttons {
@@ -196,7 +237,9 @@ svg {
 
 #convo, #task-items {
     max-height: 100%;
+    height: 85%;
     height: 100%;
+    height: 85%;
     font-size: 1rem;
 }
 
@@ -204,6 +247,7 @@ svg {
     animation-name: none;
     height: 15.45rem;
     padding-left: 25px;
+    display: flex;
 }
 
 .line {
