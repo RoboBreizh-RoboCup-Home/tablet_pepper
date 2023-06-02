@@ -28,25 +28,24 @@ var current_task_listener = new ROSLIB.Topic({
 });
 var last_item_image = "";
 var alternative_image = "";
-if (item_frame_camera) {
-    item_frame_camera.subscribe(function (message) {
-        last_item_image = message.data;
-    });
-    detection_camera.subscribe(function (message) {
-        alternative_image = message.data;
-    });
+item_frame_camera.subscribe(function (message) {
+    last_item_image = message.data;
     if (last_item_image != "") {
         update_image(last_item_image);
     }
     else {
         update_image(alternative_image);
     }
-}
-else {
-    detection_camera.subscribe(function (message) {
-        update_image(message.data);
-    });
-}
+});
+detection_camera.subscribe(function (message) {
+    alternative_image = message.data;
+    if (last_item_image != "") {
+        update_image(last_item_image);
+    }
+    else {
+        update_image(alternative_image);
+    }
+});
 operator_text.subscribe(function (message) {
     update_text(camel_case_to_sentence_case(String(message.data)), "operator_text");
 });
@@ -366,13 +365,6 @@ function stop_button_click() {
         data: 'stop'
     });
     stop_button_publisher.publish(stop_button_message);
-}
-function prev_button_click() {
-
-}
-
-function next_button_click() {
-
 }
 function emphasize_new_update(id) {
     var element = document.getElementById(id);
