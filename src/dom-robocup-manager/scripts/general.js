@@ -26,10 +26,13 @@ var current_task_listener = new ROSLIB.Topic({
     name: '/pnp/currentActivePlaces',
     messageType: 'std_msgs/String'
 });
+console.log(item_frame_camera);
+console.log(detection_camera);
 var last_item_image = "";
 var alternative_image = "";
 item_frame_camera.subscribe(function (message) {
     last_item_image = message.data;
+    console.log(last_item_image);
     if (last_item_image != "") {
         update_image(last_item_image);
     }
@@ -39,6 +42,7 @@ item_frame_camera.subscribe(function (message) {
 });
 detection_camera.subscribe(function (message) {
     alternative_image = message.data;
+    console.log(alternative_image);
     if (last_item_image != "") {
         update_image(last_item_image);
     }
