@@ -306,14 +306,16 @@ current_task_listener.subscribe(function (message) {
     ;
 });
 ros.on('connection', function () {
-    ready_to_display(function () { });
+    ready_to_display(function () { })
 });
 ros.on('error', function (error) {
     // console.log(error);
     unsubscribe();
+    location.reload();
 });
 ros.on('close', function () {
     unsubscribe();
+    location.reload();
 });
 function ready_to_display(callback) {
     var stop_button = document.getElementById('stop-button');

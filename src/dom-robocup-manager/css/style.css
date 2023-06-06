@@ -18,7 +18,7 @@ html, body, .content-container{
     padding: 0;
     box-sizing: border-box;
     font-family: Robocup-content;
-    background-color: rgb(254, 252, 232);
+    background-color: transparent;
 }
 
 .centre{
