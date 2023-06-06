@@ -30,6 +30,7 @@ var last_item_image = "";
 var alternative_image = "";
 item_frame_camera.subscribe(function (message) {
     last_item_image = message.data;
+    console.log(message.data.length);
     if (last_item_image != "") {
         update_image(last_item_image);
     }
@@ -39,6 +40,7 @@ item_frame_camera.subscribe(function (message) {
 });
 detection_camera.subscribe(function (message) {
     alternative_image = message.data;
+    console.log(message.data.length);
     if (last_item_image != "") {
         update_image(last_item_image);
     }
