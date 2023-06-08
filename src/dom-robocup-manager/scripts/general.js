@@ -26,6 +26,7 @@ var current_task_listener = new ROSLIB.Topic({
     name: '/pnp/currentActivePlaces',
     messageType: 'std_msgs/String'
 });
+
 var last_item_image = "";
 var alternative_image = "";
 item_frame_camera.subscribe(function (message) {
@@ -309,11 +310,11 @@ ros.on('connection', function () {
 ros.on('error', function (error) {
     // console.log(error);
     unsubscribe();
-    location.reload();
+    window.location.reload();
 });
 ros.on('close', function () {
     unsubscribe();
-    location.reload();
+    window.location.reload();
 });
 function ready_to_display(callback) {
     var stop_button = document.getElementById('stop-button');

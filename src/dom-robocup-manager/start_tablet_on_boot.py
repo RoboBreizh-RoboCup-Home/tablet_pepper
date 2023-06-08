@@ -18,8 +18,6 @@ class StartupNode(object):
         # Get ALTabletService service.
         self.motion_service = session.service("ALMotion")
         self.tablet_service = session.service("ALTabletService")
-        # Connect the event callback.
-        self.set_my_pepper_straight()
         self.start_time = qi.clockNow()
 
     def try_starting(self):
@@ -28,6 +26,7 @@ class StartupNode(object):
         """
         current_time = qi.clockNow()
         if (current_time - self.start_time >= 120000000000): # 120 seconds
+            self.set_my_pepper_straight()
             self.tablet_service.cleanWebview()
             if self.tablet_service.showWebview("http://198.18.0.1/apps/tablet/index.html"):
                 sys.exit(0)
