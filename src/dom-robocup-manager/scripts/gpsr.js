@@ -19,6 +19,10 @@ function create_popup(gpsr_string) {
     }
     var popup = document.createElement('div');
     popup.classList.add('popup');
+    var instruction = document.createElement('div');
+    instruction.classList.add('h2');
+    instruction.innerHTML = "Click on the sentence to edit";
+    popup.appendChild(instruction);
     var popup_text = document.createElement('div');
     popup_text.classList.add('popup-text');
     popup_text.innerHTML = gpsr_string;
