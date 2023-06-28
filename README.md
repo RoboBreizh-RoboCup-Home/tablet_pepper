@@ -67,6 +67,7 @@ In order to set up the auto load on start, add this line to ~/naoqi/preferences/
 ## Deployment
 
 Under src/dom-robocup-manager/scripts, there is a python script called deploy.py to easily change the ip addresses in the js scripts and move the files to the apps folder
+
 run it with:
 ```
 python deploy.py <robot_ip>
