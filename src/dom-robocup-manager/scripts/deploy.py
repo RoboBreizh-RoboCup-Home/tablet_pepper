@@ -4,7 +4,6 @@ USAGE: python deploy.py <robot_ip>
 
 import sys
 import socket
-import shutil
 import glob
 
 def is_ip(ip):
@@ -30,21 +29,6 @@ def replace_ip(ip):
         with open(file_path, 'w') as f:
             f.write(file_data)
 
-def move_files():
-    """move all the files in ../* to ~/.local/share/PackageManager/apps/tablet/html
-    """
-
-    source_directory = '../*'
-    destination_directory = '~/.local/share/PackageManager/apps/tablet/html'
-
-    # Get a list of all files in the source directory
-    file_list = glob.glob(source_directory)
-
-    # Move each file to the destination directory
-    for file_path in file_list:
-        shutil.move(file_path, destination_directory)
-
-    
 def main():
     try:
         ip = sys.argv[1]
@@ -56,7 +40,6 @@ def main():
     
     print("deploying to robot at {}".format(ip))
     replace_ip(ip)
-    move_files()
     
 if __name__ == "__main__":
     main()
