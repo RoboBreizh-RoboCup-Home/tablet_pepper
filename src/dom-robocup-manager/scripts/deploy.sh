@@ -9,4 +9,4 @@ fi
 ip=$1
 
 python deploy.py $ip
-cp -r "~/robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager/*" "~/.local/share/PackageManager/apps/tablet/html"
+cp -r ~/robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager/* ~/.local/share/PackageManager/apps/tablet/html
