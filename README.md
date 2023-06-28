@@ -34,12 +34,7 @@ Run the following command to compile app.ts using webpack with the following com
 npx webpack
 ```
 
-The webpage were written in plain HTML, CSS, and JavaScript, to meet the limited javascript availability, namely JavaScript 1.7 and Mozilla 5.0.
-
-In order to put the files on the robot you would need to copy the index.html along with the necessary import to /home/nao/.local/share/PackageManager/apps/tablet/html with the following command:
-```
-scp -r <FILENAME> nao@192.168.50.44:~/.local/share/PackageManager/apps/tablet/html
-```
+The webpage were written in plain HTML, CSS, and JavaScript, to meet the limited javascript availability on pepper, namely JavaScript 1.7 and Mozilla 5.0.
 
 ## Installation
 
