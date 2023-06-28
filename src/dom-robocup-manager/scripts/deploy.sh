@@ -1,7 +1,7 @@
 # Check if the argument is provided
 if [ $# -eq 0 ]; then
   echo "Error: Argument required."
-  echo "Usage: $0 robot_ip"
+  echo "Usage: sh $0 robot_ip"
   exit 1
 fi
 
