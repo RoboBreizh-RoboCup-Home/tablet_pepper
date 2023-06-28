@@ -27,17 +27,11 @@ replace_ip() {
   done
 }
 
-if [[ $# -eq 0 ]]; then
-  echo "Usage: ./deploy.sh <robot_ip>"
-  exit 1
-fi
-
-ip=$1
-
 if ! is_ip "$ip"; then
   echo "Invalid IP address"
   exit 1
 fi
 
+echo "Deploying tablet to $ip"
 replace_ip "$ip"
 cp -r ~/robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager/* ~/.local/share/PackageManager/apps/tablet/html
