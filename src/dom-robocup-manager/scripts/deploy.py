@@ -20,7 +20,7 @@ def replace_ip(ip):
     Args:
         ip (_type_): _description_
     """
-    file_list = glob.glob('../**/*', recursive=True)
+    file_list = glob.glob('./*')
     for file_path in file_list:
         with open(file_path, 'r') as f:
             file_data = f.read()
