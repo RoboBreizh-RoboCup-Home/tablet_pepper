@@ -64,6 +64,14 @@ In order to set up the auto load on start, add this line to ~/naoqi/preferences/
 /home/nao/robobreizh_pepper_ws/src/tablet_pepper/src/dom-robocup-manager/start_tablet_on_boot.py
 ```
 
+## Deployment
+
+Under src/dom-robocup-manager/scripts, there is a python script called deploy.py to easily change the ip addresses in the js scripts and move the files to the apps folder
+run it with:
+```
+python deploy.py <robot_ip>
+```
+
 ## Execution
 
 The webpage should show automatically 2 minutes after the robot booted with the "start_tablet_on_boot.py" script, 
