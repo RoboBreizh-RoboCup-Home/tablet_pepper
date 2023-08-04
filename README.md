@@ -84,6 +84,11 @@ Or this command in ~/
 python start_tablet.py
 ```
 
+## Known Issues
+
+The wifi receiver unit on the tablet is prone to inference from other wireless network and devices, which may lead to weak connection or disruptions in connection.
+
+
 ## Autoload
 
 The "start_tablet_on_boot.py" script is linked to ~/naoqi/preferences/autoload.ini to run on boot, note that on load scripts are will be ran with python 2.7, more documentations are available here, under Loading a module at startup: http://doc.aldebaran.com/2-5/dev/tools/naoqi.html.
