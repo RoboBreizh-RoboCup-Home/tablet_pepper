@@ -92,3 +92,18 @@ The wifi receiver unit on the tablet is prone to inference from other wireless n
 ## Autoload
 
 The "start_tablet_on_boot.py" script is linked to ~/naoqi/preferences/autoload.ini to run on boot, note that on load scripts are will be ran with python 2.7, more documentations are available here, under Loading a module at startup: http://doc.aldebaran.com/2-5/dev/tools/naoqi.html.
+
+
+## Citations
+
+If you use this project, please consider citing:
+
+```
+@incollection{buche2023robocup,
+  title={RoboCup@ Home SSPL Champion 2023: RoboBreizh, a Fully Embedded Approach},
+  author={Buche, C{\'e}dric and Neau, Ma{\"e}lic and Ung, Thomas and Li, Louis and Wang, Sinuo and Bono, C{\'e}dric Le},
+  booktitle={Robot World Cup},
+  pages={374--385},
+  year={2023},
+  publisher={Springer}
+}
